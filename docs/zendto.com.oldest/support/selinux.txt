@@ -1,0 +1,14 @@
+On Ubuntu, where I wrote all of this, SELinux is known as "AppArmor".
+But the principal is the same.
+
+If you find that the virus-scanning is always failing with permissions errors,
+you need to add this to the usr.sbin.clamd file in your /etc/apparmor.d
+directory, or equivalent.
+
+  # JKF Allow dropoffs to be scanned
+  /var/zendto/** r,
+
+where /var/zendto is the *absolute* location of all your ZendTo-related
+uploads.
+
+Don't forget to restart apparmor or SELinux after changing this file!

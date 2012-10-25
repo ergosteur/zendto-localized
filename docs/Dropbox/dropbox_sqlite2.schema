@@ -1,0 +1,52 @@
+/* 
+ *  UD Drop Box
+ *  dropbox.schema
+ * 
+ *  This SQL schema was constructed for use with SQLite3.  It contains
+ *  table definitions to support an updated dropbox system that allows
+ *  the user to upload multiple files in a single "drop-off".
+ */
+
+CREATE TABLE dropoff (
+  claimID             character varying(16) not null,
+  claimPasscode       character varying(16),
+  
+  authorizedUser      character varying(16),
+  
+  senderName          character varying(32) not null,
+  senderOrganization  character varying(32),
+  senderEmail         text not null,
+  senderIP            character varying(15) not null,
+  confirmDelivery     boolean default FALSE,
+  created             timestamp with time zone not null
+);
+CREATE INDEX dropoff_claimUUID_index ON dropoff(claimUUID);
+
+CREATE TABLE recipient (
+  dID                 integer not null, -- References rowID in dropoff table
+  
+  recipName           character varying(32) not null,
+  recipEmail          text not null
+);
+CREATE INDEX recipient_dID_index ON recipient(dID);
+
+CREATE TABLE file (
+  dID                 integer not null, -- References rowID in dropoff table
+  
+  tmpname             text not null,
+  basename            text not null,
+  lengthInBytes       bigint not null,
+  mimeType            character varying(32) not null,
+  description         text
+);
+CREATE INDEX file_dID_index ON file(dID);
+
+CREATE TABLE pickup (
+  dID                 integer not null, -- References rowID in dropoff table
+  
+  authorizedUser      character varying(16),
+  emailAddr           text,
+  recipientIP         character varying(15) not null,
+  pickupTimestamp     timestamp with time zone not null
+);
+CREATE INDEX pickup_dID_index ON pickup(dID);

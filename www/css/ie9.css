@@ -1,0 +1,22 @@
+a.UD_textbutton, a.UD_textbutton_admin, .UD_textbutton_admin, input[type="submit"], input[type="button"], button {
+	filter: none;
+	font-weight:normal;
+}
+
+
+input[type="submit"][disabled], input[type="button"][disabled], button[disabled], .greyButton{
+	filter: none;
+	font-weight:normal;
+}
+
+a.UD_textbutton:hover, input[type="submit"]:hover, input[type="button"]:hover, button:hover {
+	filter: none;
+}
+
+a.UD_textbutton_admin:hover, .UD_textbutton_admin:hover {
+	filter: none;
+}
+
+#sendSingle > div {
+	margin-bottom:4px;
+}

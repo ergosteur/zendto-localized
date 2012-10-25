@@ -1,0 +1,179 @@
+Install Ubuntu 10 server 64-bit
+At boot menu, F4 and "Install a Minimal Virtual Machine"
+In English, in the UK using a US keyboard.
+Partition manually.
+Part 1 = primary 2.0 GB swap at beginning of disk
+Part 2 = primary max / ext4 bootable
+Primary username = ZendTo
+User account = zendto
+Password = zendto
+Install security updates automatically.
+Software selection: Basic, LAMP, OpenSSH.
+MySQL root user password = zendto
+Install GRUB in master boot record.
+
+Remove CD/DVD and reboot.
+
+SSH in remotely, stop using console.
+
+sudo su -
+passwd zendto (set it to something secure for now)
+
+mkdir php-source
+cd php-source
+apt-get -y install debhelper bison chrpath freetds-dev libcurl4-openssl-dev libedit-dev libgd2-xpm-dev libgmp3-dev libmhash-dev libpam0g-dev libpspell-dev librecode-dev libsasl2-dev libsnmp-dev libsqlite0-dev libt1-dev libtidy-dev re2c unixodbc-dev
+apt-get -y install apache2-prefork-dev autoconf automake flex hardening-wrapper libapr1-dev libbz2-dev libdb-dev libenchant-dev libgcrypt11-dev libglib2.0-dev libicu-dev libmysqlclient-dev libpcre3-dev libpq-dev libsqlite3-dev libxmltok1-dev libxml2-dev libxslt1-dev quilt
+apt-get -y install clamav clamav-daemon
+apt-get -y install php5 php5-cli php5-sqlite php5-ldap
+apt-get -y install rrdtool
+apt-get -y source php5-cgi
+cd php5*
+perl -i -pe 's/int zend_atoi/long zend_atoi/' Zend/zend_operators.[ch];
+perl -i -pe 's/\n/@@@@@@/g' Zend/zend_operators.c;
+perl -i -pe 's/(long zend_atoi.*?)int retval/$1long retval/m' Zend/zend_operators.c;
+perl -i -pe 's/@@@@@@/\n/g' Zend/zend_operators.c;
+perl -i -pe 's/atoi\(content_length\)/atol(content_length)/' `find sapi -name '*.c'`
+perl -i -pe 's/\(uint\)( SG\(request_info\))/$1/' `find sapi -name '*.c'`;
+perl -i -pe 's/uint post_data_length, raw/uint IGNORE_post_data_length, IGNORE_raw/' main/SAPI.h;
+perl -i -pe 's/} sapi_request_info/\tlong post_data_length, raw_post_data_length;\n} sapi_request_info/' main/SAPI.h;
+perl -i -pe 's/int read_post_bytes/long read_post_bytes/'    main/SAPI.h;
+perl -i -pe 's/int boundary_len=0, total_bytes=0/long total_bytes=0; int boundary_len=0/' main/rfc1867.c;
+
+# Omit this for the 32-bit build
+dpkg-buildpackage -rfakeroot -uc -b -j2
+cd debian/libapache2-mod-php5/usr/lib/apache2/modules
+mv /usr/lib/apache2/modules/libphp5.so /usr/lib/apache2/modules/libphp5.so-UBUNTU
+cp libphp5.so /usr/lib/apache2/modules/
+# End Omit this for the 32-bit build
+
+cd
+apt-get remove mysql-server
+rm -rf ~/php-source
+
+cd /etc/php5/apache2
+Edit php.ini
+allow_call_time_pass_reference = On
+max_execution_time = 7200
+max_input_time = 7200
+memory_limit = 300M
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
+display_errors = On
+post_max_size = 50000M
+upload_tmp_dir = /var/zendto/incoming
+upload_max_filesize = 50G
+max_file_uploads = 200
+
+cd /etc/apache2/sites-enabled
+rm 000-default
+cat <<EOF > 000-zendto
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+
+	HostnameLookups On
+
+	DocumentRoot /opt/zendto/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /opt/zendto/www/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	LogLevel notice
+	ErrorLog /var/log/apache2/error.log
+	CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+EOF
+
+# Write 001-zendto-ssl
+scp root@dropoff-dev:/opt/dropbox/zendto/docs/building-vm/001-zendto-ssl .
+
+cd
+openssl req -newkey rsa:1024 -keyout key.pem -out zendto-ssl.csr
+- Answer each of the questions, giving your full hostname for the "Common Name".
+openssl rsa -in key.pem -out zendto-ssl.key
+Enter the passphrase you chose in the previous "openssl req" command.
+chmod o-r zendto-ssl.key
+chgrp ssl-cert zendto-ssl.key
+mv zendto-ssl.key /etc/ssl/private/
+- Give the zendto-ssl.csr text file to your SSL Certificate provider and get
+  an SSL server certificate for the server software called "Apache-ModSSL"
+  (or its nearest alternative). You will get a file back containing
+  the certificate. This should be readable in a text editor. Call it
+  "zendto-ssl.crt".
+chmod a+r zendto-ssl.crt
+cp zendto-ssl.crt /etc/ssl/certs/
+- You may also need to get a Certificate Authority Bundle for your
+  cert provider.
+scp root@dropoff-dev:/opt/dropbox/zendto/docs/building-vm/ca-bundle.crt .
+chmod a+r ca-bundle.crt
+cp ca-bundle.crt /etc/ssl/certs/
+cd /etc/apache2/mods-enabled
+ln -s ../mods-available/ssl.conf ssl.conf
+ln -s ../mods-available/ssl.load ssl.load
+
+
+usermod -a -G www-data clamav
+
+Edit /etc/apparmor.d/usr.sbin.clamd
+- Add "  /var/zendto/** r," just before the last line
+
+cd /var
+mkdir zendto zendto/dropoffs zendto/incoming zendto/rrd
+touch zendto/zendto.log
+chown www-data zendto/*
+chgrp www-data zendto zendto/*
+chmod g+w zendto
+
+export EDITOR=vi
+crontab -e
+Add these 2 lines at the end:
+5 0 * * * /usr/bin/php /opt/zendto/sbin/cleanup.php /opt/zendto/config/preferences.php
+2 10 * * * /usr/bin/php /opt/zendto/sbin/rrdInit.php /opt/zendto/config/preferences.php
+2 12 * * * /usr/bin/php /opt/zendto/sbin/rrdUpdate.php /opt/zendto/config/preferences.php
+
+Build all the source code owned by root.root under /opt/zendto,
+making /opt/ZendTo-3.01 the real dir with /opt/zendto a symlink to it.
+
+reboot
+
+Load https://zendto.ecs.soton.ac.uk/about.php in a web browser.
+That will create the database.
+
+Login and "sudo su -" to get root access.
+
+cd /opt/zendto/sbin
+php rrdInit.php /opt/zendto/config/preferences.php
+Ignore any "PHP Notice" output from that.
+
+-----------------------------------------------
+
+Testing:
+Put /etc/ssl/private/zendto-ssl.key in place.
+/etc/init.d/apache2 restart
+
+Distributing:
+rm /etc/ssl/private/zendto-ssl.key
+rm -rf ~zendto/* ~zendto/.bash_history
+
+apt-get -y remove debhelper bison chrpath freetds-dev libcurl4-openssl-dev libedit-dev libgd2-xpm-dev libgmp3-dev libmhash-dev libpam0g-dev libpspell-dev librecode-dev libsasl2-dev libsnmp-dev libsqlite0-dev libt1-dev libtidy-dev re2c unixodbc-dev apache2-prefork-dev autoconf automake flex hardening-wrapper libapr1-dev libbz2-dev libdb-dev libenchant-dev libgcrypt11-dev libglib2.0-dev libicu-dev libmysqlclient-dev libpcre3-dev libpq-dev libsqlite3-dev libxmltok1-dev libxml2-dev libxslt1-dev quilt
+apt-get -y autoremove
+apt-get -y clean
+- Add static setup lines to /etc/network/interfaces
+cd /var/log
+for F in kern.log messages syslog udev; do :> $F; done
+cd
+dd if=/dev/zero of=BIGFILE bs=1024000
+rm BIGFILE
+passwd zendto
+Reset password to "zendto".
+shutdown -h now
+
+Then clone the VM using Thin provisioning.
+Then build a VMware VMDK image of the disk using VCB, then zip the VMDK file,
+along with the ReadMe.txt file of instructions.
+282MB !! Yay! :-)

@@ -1,0 +1,330 @@
+BODY {
+  background-color:       white;
+  background-image:       url("../images/ud_brand/background.png");
+  background-repeat:      repeat-y;
+
+  color:                  #001a4d;
+  
+  font-family:            "Helvetica",sans-serif;
+  font-size:              12px;
+  
+  margin:                 0px;
+}
+
+TABLE {
+  color:                  #001a4d;
+}
+
+A {
+  color:                  #001a4d;
+  text-decoration:        none;
+  font-weight:            bold;
+}
+A:hover {
+  color:                  #003399;
+  text-decoration:        underline;
+}
+
+/*
+ * Header:
+ */
+TABLE.UD_header {
+  border-collapse:        collapse;
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+  
+  background-color:       white;
+  border-bottom:          3px solid #001540;
+}
+TD#UD_header_left {
+  background:             url("../images/ud_brand/dropbox-header-left.png");
+  background-repeat:      no-repeat;
+  
+  height:                 94px;
+  width:                  94px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_header_top {  
+  height:                 40px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_header_title {
+  color:                  #001a4d;
+  
+  font-size:              24px;
+  font-weight:            bold;
+  
+  text-align:             right;
+  
+  height:                 54px;
+  
+  margin:                 0px;
+  padding:                0px;
+  padding-right:          24px;
+  border:                 0px;
+}
+
+/*
+ * Footer:
+ */
+TABLE.UD_footer {
+  border-collapse:        collapse;
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+  
+  background-color:       white;
+  border-bottom:          3px solid #001540;
+  border-top:             3px solid #001540;
+}
+TD#UD_footer_right {
+  background:             url("../images/ud_brand/dropbox-footer-right.png");
+  background-repeat:      no-repeat;
+  
+  height:                 50px;
+  width:                  96px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_footer_right_admin {
+  background:             url("../images/ud_brand/dropbox-footer-right-admin.png");
+  background-repeat:      no-repeat;
+  
+  height:                 50px;
+  width:                  96px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_footer_bottom {
+  height:                 20px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_footer_text {
+  color:                  #001a4d;
+  
+  font-size:              10px;
+  font-weight:            bold;
+  
+  text-align:             left;
+  
+  height:                 30px;
+  
+  margin:                 0px;
+  padding:                0px;
+  padding-left:           4px;
+  border:                 0px;
+}
+
+/*
+ * Text button style:
+ */
+A.UD_textbutton {
+  color:                  #ffcc00;
+  text-decoration:        none;
+  font-weight:            bold;
+  display: block;
+  padding: 5px;
+}
+A.UD_textbutton:hover {
+  color:                  #ffe580;
+  text-decoration:        underline;
+}
+A.UD_textbutton_admin {
+  color:                  #ffcc00;
+  text-decoration:        none;
+  font-weight:            bold;
+  display: block;
+  padding: 5px;
+}
+A.UD_textbutton_admin:hover {
+  color:                  #ffe580;
+  text-decoration:        underline;
+}
+A.UD_textbuttonedge {
+  text-decoration: none;
+  display: block;
+  padding: 4px;
+}
+TABLE.UD_textbutton {
+  border-collapse:        collapse;
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_left {
+  background:             url("../images/ud_brand/text-button-left.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_left_admin {
+  background:             url("../images/ud_brand/text-button-left_admin.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_content {
+  background:             url("../images/ud_brand/text-button-bg.png");
+  background-repeat:      repeat-x;
+  
+  height:                 25px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+  
+  color:                  #ffcc00;
+  font-weight:            bold;
+  font-size:              10px;
+}
+TD.UD_textbutton_content_admin {
+  background:             url("../images/ud_brand/text-button-bg_admin.png");
+  background-repeat:      repeat-x;
+  
+  height:                 25px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+  
+  color:                  #ffcc00;
+  font-weight:            bold;
+  font-size:              10px;
+}
+TD.UD_textbutton_right {
+  background:             url("../images/ud_brand/text-button-right.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_right_admin {
+  background:             url("../images/ud_brand/text-button-right_admin.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+
+/*
+ * Form tables:
+ */
+TABLE.UD_form {
+  border-collapse:        collapse;
+  border-top:             2px solid #365fb3;
+  border-left:            2px solid #365fb3;
+  border-right:           2px solid #001540;
+  border-bottom:          2px solid #001540;
+  background:             #e6eaf2;
+  padding:                5px;
+}
+TR.UD_form_header {
+  background:             #002778;
+  color:                  #ffcc00;
+  font-size:              12px;
+  font-weight:            bold;
+  border-bottom:          2px solid #001540;
+}
+TR.UD_form_footer {
+  background:             #002778;
+  color:                  #ffcc00;
+  border-top:             2px solid #365fb3;
+}
+TR.UD_form_lined {
+  border-bottom:          1px solid #001540;
+}
+TD.UD_form_lined {
+  border-right:           1px solid #001540;
+}
+
+/*
+ *
+ */
+TABLE.UD_error {
+  border-top:             2px solid #001540;
+  border-bottom:          2px solid #001540;
+}
+TD.UD_error_title {
+  font-size:              12px;
+  font-weight:            bold;
+}
+TD.UD_error_message {
+  font-size:              10px;
+  
+  text-align:             justify;
+}
+
+/*
+ * Page content area:
+ */
+DIV.content {
+  color:                  #001a4d;
+  
+  margin-left:            25px;
+  margin-right:           10px;
+}
+
+/*
+ * Page footer area:
+ */
+DIV.footer {
+  color:                  #001a4d;
+  
+  margin:                 4px;
+  
+  border-top:             1px solid #001540;
+  
+  font-size:              10px;
+  font-weight:            bold;
+}
+
+/*
+ * Provide some absolute sizing for these tags:
+ */
+H1 {
+  font-size:              32px;
+}
+H2 {
+  font-size:              24px;
+}
+H3 {
+  font-size:              18px;
+}
+H4 {
+  font-size:              14px;
+}
+H5 {
+  font-size:              12px;
+}

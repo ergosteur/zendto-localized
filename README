@@ -1,0 +1,27 @@
+Welcome to ZendTo (C) Julian Field 2011 Jules@Zend.To
+
+Please start at the web site http://zend.to/ as it contains all the
+documentation you need to get started. However, other documentation is
+included in the package you downloaded.
+
+If you are using one of the VMware Virtual Machine distributions of
+ZendTo then read the entire ReadMe text file that was part of the zip
+you downloaded. Then dig into /opt/zendto/config/preferences.php for the
+application settings, and /opt/zendto/config/zendto.conf for the user
+interface settings.
+
+If you need to use MySQL instead of SQLite, then you will need to setup
+the database first, so look in the /opt/zendto/sql/ directory for help.
+
+*** NOTE ***
+The "cache" and "templates_c" must be writeable by the user and group
+that your web server is running as!
+As must the directory containing the log and the SQLite database file.
+*** NOTE ***
+
+Please see http://zend.to for all the other documentation, as well as
+all the documentation you will find in this package.
+
+-- 
+Jules
+Jules@Zend.To

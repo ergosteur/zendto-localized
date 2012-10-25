@@ -1,0 +1,27 @@
+This shows the permissions structure you need in the ZendTo
+data directories, which I have simply put into "/var/zendto".
+
+I have moved the "dropoffs" and "incoming" directories into a separate
+partition of their own, so the system won't die if the partition fills up
+with drop-offs.
+
+The group entry is required for ClamAV (clamd) to be able to virus-scan
+your uploaded files.
+
+If you are on a RedHat/CentOS or many other systems, you will need to read
+"www-data" as "apache". Check your httpd.conf to see what user your Apache
+web server is running as.
+
+root@zendto:/# cd /var/zendto/
+root@zendto:/var/zendto# ls -al
+total 104
+drwxrwxr-x  3 root     www-data  4096 2010-05-15 17:50 .
+drwxr-xr-x 23 root     root      4096 2010-05-11 17:05 ..
+-rw-r--r--  1 www-data www-data 37102 2010-05-16 09:52 zendto.log
+-rw-r--r--  1 www-data www-data 44032 2010-05-15 17:50 zendto.sqlite
+drwxrwxr-x  1 root     www-data  4098 2010-05-06 13:50 dropoffs
+drwxrwxr-x  1 root     www-data  4098 2010-05-06 13:50 incoming
+drwxr-xr-x  2 www-data www-data  4096 2010-05-05 11:54 rrd
+root@zendto:/var/zendto# grep www-data /etc/group
+www-data:x:33:clamav
+

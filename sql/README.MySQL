@@ -1,0 +1,32 @@
+This describes how to setup MySQL for use with ZendTo.
+
+Setting up the MySQL database can be done by creating an empty database,
+importing the table layout and granting the proper permissions to the
+zendto user. Here is an example of that procedure:
+
+# mysql
+mysql> CREATE DATABASE zendto;
+mysql> GRANT ALL PRIVILEGES ON zendto.* TO zendto@localhost
+    IDENTIFIED by 'password';
+mysql> quit
+
+# mysql --user=zendto --password='password' zendto < zendto.MySQL
+
+Note: 'password' is the master password for the zendto user.
+      I strongly recommend that you replace this with a more secure
+      password. Please remember that you will need to specify all
+      the database connection details in 'config/preferences.php'.
+
+Note: If you are upgrading from a previous version of ZendTo and the
+      database has changed, just do the last "mysql" command given
+      above. It will not delete anything, don't worry, it will just
+      add any new tables necessary.
+
+** IMPORTANT FOR MyZendTo USERS **
+Note: If you are using MyZendTo and are upgrading from 4.02 or earlier,
+      you don't have quotas in your usertable. To add these, do this:
+      # mysql --user=zendto --password='password' zendto
+      alter table usertable add column quota real after organization;
+      quit
+      You must then run /opt/zendto/bin/setquota.php for *every* user
+      to set their quota, or things will go horribly wrong. :)

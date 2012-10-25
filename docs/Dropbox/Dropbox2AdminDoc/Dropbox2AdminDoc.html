@@ -1,0 +1,576 @@
+<HTML>
+  <HEAD>
+    <TITLE>Dropbox 2 Documentation</TITLE>
+    <STYLE>
+
+body {
+  background-color:       white;
+  color:                  #20202F;
+  
+  font-family:            'Lucida Grande',sans-serif;
+  font-size:              10px;
+  
+  margin:                 0px;
+  
+  text-align:             justify;
+}
+
+a {
+  color:                  #20202F;
+}
+
+li {
+  padding:                4px;
+}
+
+tt {
+  font-family:            'Courier',monospace;
+  font-size:              12px;
+}
+
+tt.hilite {
+  font-family:            'Courier',monospace;
+  font-size:              12px;
+  
+  background-color:       #F0F0FF;
+  
+  padding:                2px;
+}
+
+font.smallcaps {
+  font-variant:           small-caps;
+  font-size:              150%;
+}
+
+font.section-title {
+  font-size:              14px;
+  border-bottom:          1px solid #20202F;
+  margin:                 4px;
+}
+font.subsection-title {
+  font-size:              13px;
+  border-bottom:          1px solid #20202F;
+  margin:                 4px;
+}
+font.subsubsection-title {
+  font-size:              12px;
+  border-bottom:          1px solid #20202F;
+  margin:                 4px;
+}
+
+table {
+  border-collapse:        collapse;
+  
+  color:                  #202020;
+  
+  font-family:            'Lucida Grande',sans-serif;
+  font-size:              10px;
+  
+  text-align:             justify;
+}
+
+table#header {
+  background-color:       #D0D0DF;
+  
+  font-size:              18px;
+  font-weight:            bold;
+  
+  border-left:            2px solid #E0E0EF;
+  border-top:             2px solid #E0E0EF;
+  border-right:           2px solid #C0C0CF;
+  border-bottom:          2px solid #C0C0CF;
+  
+  width:                  100%;
+}
+table#header td {
+  padding:                4px;
+}
+table#header img {
+  border-left:            2px solid #C0C0CF;
+  border-top:             2px solid #C0C0CF;
+  border-right:           2px solid #E0E0EF;
+  border-bottom:          2px solid #E0E0EF;
+}
+
+table#footer {
+  background-color:       #D0D0DF;
+  
+  font-size:              9px;
+  font-weight:            bold;
+  
+  text-align:             center;
+  
+  border-left:            2px solid #E0E0EF;
+  border-top:             2px solid #E0E0EF;
+  border-right:           2px solid #C0C0CF;
+  border-bottom:          2px solid #C0C0CF;
+  
+  width:                  100%;
+}
+table#footer td {
+  padding:                4px;
+}
+
+table.list {
+  border:                 2px solid #C0C0CF;
+}
+table.list th {
+  border:                 2px solid #C0C0CF;
+  background-color:       #D0D0DF;
+  color:                  white;
+  padding:                4px;
+}
+table.list td {
+  border:                 2px solid #C0C0CF;
+  padding:                4px;
+}
+
+div.section {
+  margin-top:             10px;
+  margin-left:            20px;
+  margin-right:           10px;
+  margin-bottom:          32px;
+}
+
+div.code {
+  font-family:            'Courier',monospace;
+  white-space:            pre;
+  border:                 1px dashed #C0C0CF;
+  background-color:       #F0F0FF;
+  margin:                 10px;
+  padding:                4px;
+}
+
+    </STYLE>
+  </HEAD>
+  <BODY>
+
+<!-- Page header -->
+<TABLE ID="header"><TR VALIGN="BOTTOM">
+  <TD WIDTH="80" ALIGN="CENTER"><IMG SRC="dropbox-icon.png" HEIGHT="80"></TD>
+  <TD><FONT CLASS="smallcaps">Dropbox 2.1</FONT><BR>Administrative Documentation</TD>
+</TR></TABLE>
+<BR>
+<BR>
+
+<!-- Section 1 -->
+<FONT CLASS="section-title">Apache Setup</FONT>
+<DIV CLASS="section">
+  The Dropbox software package contains the following directories:
+  <UL>
+    <LI><TT CLASS="hilite">data</TT> default location <TT>config.php</TT> will configure to contain dropoffs and the log and SQLite database file</LI>
+    <LI><TT CLASS="hilite">docs</TT> this documentation, image templates</LI>
+    <LI><TT CLASS="hilite">lib</TT> shared PHP code, used by the web pages and admin scripts</LI>
+    <LI><TT CLASS="hilite">sbin</TT> administrative scripts</LI>
+    <LI><TT CLASS="hilite">www</TT> web pages and configuration file</LI>
+  </UL>
+  The <TT>www</TT> and <TT>lib</TT> directories must be readable by the web server running on the server, but the other two directories can be locked-down.<BR>
+  <BR>
+  Assume the Dropbox package resides at <TT>/opt/NSSDropbox</TT> (the "NSS" prefix is just a cheap way to create a unique namespace for Dropbox functions).  The Apache server running on the machine has an alias defined to point to the <TT>/opt/NSSDropbox/www</TT> directory (from <TT>httpd.conf</TT>):
+  
+  <DIV CLASS="code">&lt;IfModule mod_alias.c&gt;
+
+  Alias /dropbox "/opt/NSSDropbox/www/"
+  &lt;Directory "/opt/NSSDropbox/www/"&gt;
+    AllowOverride None
+    Options FollowSymLinks ExecCGI
+    Order allow,deny
+    Allow from all
+  &lt;/Directory&gt;
+
+&lt;/IfModule&gt;</DIV>
+
+  Alternatively, <TT>DocumentRoot</TT> could be set to point to <TT>/opt/NSSDropbox/www</TT> if Dropbox is to be the exclusive service on this web server.<BR>
+  <BR>
+  The web server must have PHP 5 support enabled for Dropbox 2.1 to work.  Once the web server is configured to serve the <TT>www</TT> directory, the Dropbox support files and directories must be created and configured.
+</DIV>
+
+<!-- Section 2 -->
+<FONT CLASS="section-title">Dropbox Creation</FONT>
+<DIV CLASS="section">
+  Before discussing the creation of a Dropbox, it will be instructive to know what happens when a dropoff is made.
+  <OL>
+    <LI>The end-user submits a dropoff from his/her web browser.</LI>
+    <LI>Dropbox chooses a unique 16-character identifier (the <I>claimID</I>) for the data as well as a 16-character <I>passcode</I> that will be sent to the recipients in the notification email.</LI>
+    <LI>Dropbox verifies that the dropoff is valid &mdash; syntactically-correct email addresses, all files within size limits, etc.</LI>
+    <LI>Dropbox creates a directory with the <I>claimID</I> as its name and moves the files from PHP's <TT>upload_tmp_dir</TT> into that directory.</LI>
+    <LI>Dropbox adds dropoff, recipient, and file description records to its database</LI>
+    <LI>Finally, Dropbox writes the HTML response &mdash; either an error report or a summary of the dropoff.</LI>
+  </OL>
+  So there are essentially two directories to worry about here.  First is the directory that Dropbox uses in step 4.  Given a large disk mounted at <TT>/dropbox</TT> on the target system, and within that directory we've created <TT>/dropbox/dropoffs</TT> to hold all of the dropoff directories (again, from step 4).  Of course, the web server must be able to write to this directory!  So set permissions and ownership accordingly.<BR>
+  <BR>
+  The other directory is the directory PHP uses to hold uploaded files; by default, PHP uses <TT>/tmp</TT>.  It may be desirable to change this to a location on the same disk as the final destination of the dropoffs, e.g. <TT>/dropbox/incoming</TT>.  The web server must be allowed to write to this directory, too.<BR>
+  <BR>
+  In the end, we'll probably wind up storing Dropbox's database and log file here, as well.  So what might a production <TT>/dropbox</TT> directory look like?
+  
+  <DIV CLASS="code">$ ls -l /dropbox
+total 3.9M
+-rw-r--r--     1 apache wheel 2.4M Mar  1 13:51 dropbox.log
+-rw-r--r--     1 apache wheel 720K Mar  1 13:51 dropbox.sqlite
+drwxrws---  1019 apache wheel  36K Mar  1 13:51 dropoffs
+drwxrws---     2 apache wheel 4.0K Mar  1 13:51 incoming</DIV>
+
+  Both the <TT>dropoffs</TT> and <TT>incoming</TT> directories are locked-down so that only the web server user (<TT>apache</TT>) and members of the administrative group <TT>wheel</TT> can see inside them.  One could likewise remove the global read permission on the log and database files to increase security. 
+</DIV>
+
+<!-- Section 3 -->
+<FONT CLASS="section-title">Dropbox Configuration</FONT>
+<DIV CLASS="section">
+  The configuration file for a Dropbox lives in the <TT>NSSDropbox/www</TT> directory and is named <TT>preferences.php</TT>.  This file contains a few definitions of constants and (primarily) an associative array (hash) of configuration parameters.  An example configuration file can be found in <TT>NSSDropbox/docs/preferences-sample.php</TT>.<BR>
+  <BR>
+  The Dropbox package includes <TT>NSSDropbox/www/config.php</TT>, a PHP script that:
+  <UL>
+    <LI>suggests default values for all parameters</LI>
+    <LI>checks permissions on the data directory where dropoffs, the log file, and SQLite database file will be stored</LI>
+    <LI>constructs a <TT>preferences.php</TT> file</LI>
+    <LI>creates the <TT>dropoffs</TT> directory and initializes the log and SQLite database files</LI>
+  </UL>
+  Essentially, after accessing this script across the web (the URL would be for example <TT>http://<I>hostname</I>/dropbox/config.php</TT>) the system administrator can make minor adjustments to the resultant <TT>preferences.php</TT> file (to setup LDAP authentication, for example).  To make these changes, it's important to know what those parameters mean and what values are appropriate.<BR>
+  <BR>
+  
+  <!-- Section 3.1 -->
+  <FONT CLASS="subsection-title">Constants</FONT>
+  <DIV CLASS="section">
+    In the <TT>preferences.php</TT> file:
+    <DIV CLASS="code">define('NSSDROPBOX_BASE_DIR','/opt/NSSDropbox/');
+define('NSSDROPBOX_LIB_DIR','/opt/NSSDropbox/lib/');
+define('NSSDROPBOX_DATA_DIR','/dropbox/');</DIV>
+    The first two (<TT>NSSDROPBOX_BASE_DIR</TT> and <TT>NSSDROPBOX_LIB_DIR</TT>) should be self-explanatory.  The third (<TT>NSSDROPBOX_DATA_DIR</TT>) is the path at which dropoffs will be stored.  The trailing "<TT>/</TT>" in the paths <I>is significant</I>, so don't forget it!<BR>
+    <BR>
+    There is also a constant that determines which <I>theme</I> will be used on the website.  The package contains several themes:
+    <UL>
+      <LI><B>default</B></LI>
+      <LI><B>flat</B></LI>
+      <LI><B>flat2</B></LI>
+      <LI><B>blue</B></LI>
+      <LI><B>algae</B></LI>
+      <LI><B>duracell</B></LI>
+    </UL>
+    It is relatively straightforward to craft additional themes.  Image pieces go in <TT>www/images/<I>theme</I></TT> and a <TT><I>theme</I>.css</TT> file must be added to <TT>www/css</TT>.  The image pieces include the page header, footer, and button components; look at the images in <TT>www/images/default</TT> to get a better idea.
+  </DIV>
+  
+  <!-- Section 3.2 -->
+  <FONT CLASS="subsection-title">Preference Hash</FONT>
+  <DIV CLASS="section">
+    The preference file that comes with the package includes quite a bit of inline documentation to describe each of the preferences.  Even so:<BR>
+    <BR>
+    <TABLE CLASS="list">
+      <TR><TH>Key String</TH><TH>Description</TH></TR>
+      
+      <TR>
+        <TD><TT>dropboxName</TT></TD>
+        <TD>
+          Provides the descriptive name for the service; displayed throughout the web interface.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"UD Dropbox Service"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>contactInfo</TT></TD>
+        <TD>
+          Text that should be displayed in the footer of each web page generated by Dropbox.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"University of Delaware, Network &amp;amp; Systems Services&amp;nbsp;|&amp;nbsp;Copyright &amp;copy; 2006"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>dropboxDomain</TT></TD>
+        <TD>
+          The base DNS domain of the hosting organization, used to determine when an email address is an <I>internal</I> address.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"udel.edu"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>dropboxDirectory</TT></TD>
+        <TD>
+          The canonical directory path where the Dropbox should store dropoff files.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;NSSDROPBOX_DATA_DIR."dropoffs"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>dropboxDatabase</TT></TD>
+        <TD>
+          The canonical path to the SQLite database file that the Dropbox will use to store dropoff information.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;NSSDROPBOX_DATA_DIR."dropbox.sqlite"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>logFilePath</TT></TD>
+        <TD>
+          The canonical path to the Dropbox log file.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;NSSDROPBOX_DATA_DIR."dropbox.log"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>numberOfDaysToRetain</TT></TD>
+        <TD>
+          If automatic removal of dropoffs is setup (to keep disk usage under control) the <TT>NSSDropbox/sbin/cleanup.php</TT> script uses this parameter to determine how old a dropoff can be.  The value must be an integer and has an implied unit of days.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;14</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>authUserFormalDesc</TT></TD>
+        <TD>
+          A verbose description on an <I>internal</I> of the Dropbox (a'la a user with an email address in <TT>dropboxDomain</TT>).  The system will in some places display text like:  <TT CLASS="hilite">&lt;authUserFormalDesc&gt; user</TT>.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"University of Delaware"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>authUserShortDesc</TT></TD>
+        <TD>
+          A shortened description on an <I>internal</I> of the Dropbox (a'la a user with an email address in <TT>dropboxDomain</TT>).  The system will in some places display text like:  <TT CLASS="hilite">&lt;authUserShortDesc&gt; user</TT>.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"UD"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>emailSenderAddr</TT></TD>
+        <TD>
+          By default, emails sent by Dropbox will come from the user the web server is running as; use this property to assign a custom "From:" address to messages originating from Dropbox.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"UD Dropbox Service &lt;dropbox@udel.edu&gt;"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>maxBytesForFile</TT></TD>
+        <TD>
+          The maximum allowed size of a single file in a dropoff.  Note that PHP's own <TT>upload_max_filesize</TT> configuration parameter in <TT>php.ini</TT> may need to be altered to increase PHP's own upload limit (the default is something like 2 MB).  The Dropbox limit is applied <I>after</I> PHP has its say.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;10.0 * 1024 * 1024&nbsp;&nbsp;/* 10 MB */</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>maxBytesForDropoff</TT></TD>
+        <TD>
+          The maximum allowed size of all the files contained in a single dropoff.  Note that PHP's own <TT>upload_max_filesize</TT> configuration parameter in <TT>php.ini</TT> may need to be altered to increase PHP's own upload limit (the default is something like 2 MB).  The Dropbox limit is applied <I>after</I> PHP has its say.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;20.0 * 1024 * 1024&nbsp;&nbsp;/* 20 MB */</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>showRecipsOnPickup</TT></TD>
+        <TD>
+          Should the list of recipients be displayed on pickup pages when a recipient makes the pickup?  This setting is mainly there for security purposes.  Admins and the user who made the dropoff can always see the recipient list.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;FALSE</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>demandHTTPS</TT></TD>
+        <TD>
+          Set this to <TT>TRUE</TT> if the Dropbox code itself should enforce the exclusive use of secure HTTP (HTTPS).  Note that a <TT>Redirect</TT> or <TT>RedirectMatch</TT> directive in the Apache server's configuration can also be used to enforce the use of secure transfer:<BR>
+          <PRE>
+&lt;VirtualHost *:80&gt;
+  ServerName dropbox.udel.edu
+  Redirect /dropbox https://po-box.nss.udel.edu/
+&lt;/VirtualHost&gt;
+          </PRE>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>cookieName</TT></TD>
+        <TD>
+          The cookie name that Dropbox should use for authentication purposes.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"ud-dropbox-session"</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>cookieSecret</TT></TD>
+        <TD>
+          The Dropbox uses a 32-character value that is known only internally to create MD5 checksums that are embedded in the cookies it uses.  When Dropbox examines a cookie sent to it by a browser, this secret text helps to prove the cookie's authenticity.  The <TT>config.php</TT> web page automatically generates this value and stores it in the <TT>preferences.php</TT> file it creates.  See the next sub-section for details on generating cookie secrets.
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>cookieTTL</TT></TD>
+        <TD>
+          Number of seconds before the cookie that Dropbox uses for authentication purposes expires.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;900</TT>
+        </TD>
+      </TR>
+      
+      <TR>
+        <TD><TT>authenticator</TT></TD>
+        <TD>
+          For <I>internal</I> users to login to the Dropbox system, there must be some way to authenticate that user.  The package includes an LDAP-based, IMAP-based, and static authenticator class.  Other mechanisms can be added by creating a concrete subclass of <TT>NSSAuthenticator</TT> &mdash; see <TT>lib/NSSAuthenticator.php</TT>.<BR><BR>
+          The NSSIMAPAuthenticator class was originally written and contributed by Scott Merrill.<BR><BR>
+          <B>EXAMPLE:</B><BR>
+          <TT>&nbsp;&nbsp;"Static"</TT><BR>
+          <TT>&nbsp;&nbsp;"LDAP"</TT><BR>
+          <TT>&nbsp;&nbsp;"IMAP"</TT><BR>
+          <BR>
+          <B>GENERIC AUTHENTICATOR PREFERENCES:</B>
+          <TABLE WIDTH="75%" CLASS="list">
+            <TR><TH>Key String</TH><TH>Description</TH></TR>
+      
+            <TR>
+              <TD><TT>authAdmins</TT></TD>
+              <TD>
+                An array of usernames who are granted administrative privileges on the Dropbox web site.  Essentially, once an internal user with administrative privileges logs-in s/he will be able to view all dropoffs.<BR><BR>
+                <B>EXAMPLE:</B><BR>
+                <TT>&nbsp;&nbsp;array("jfrey","avg_joe")</TT>
+              </TD>
+            </TR>
+            
+          </TABLE>
+          <BR>
+          <B>LDAP AUTHENTICATOR PREFERENCES:</B>
+          <TABLE WIDTH="75%" CLASS="list">
+            <TR><TH>Key String</TH><TH>Description</TH></TR>
+      
+            <TR>
+              <TD><TT>authLDAPBaseDN</TT></TD>
+              <TD>
+                The LDAP authenticator should attempt to bind to this LDAP domain.<BR><BR>
+                <B>EXAMPLE:</B><BR>
+                <TT>&nbsp;&nbsp;"o=udel.edu"</TT>
+              </TD>
+            </TR>
+            
+            <TR>
+              <TD><TT>authLDAPServers</TT></TD>
+              <TD>
+                A list of LDAP servers which Dropbox can try for authentication purposes; the servers are tried in sequence until one answers the bind request.  This key should always have an array-based value, even if there is only one server.<BR><BR>
+                <B>EXAMPLE:</B><BR>
+                <TT>&nbsp;&nbsp;array("ldap1.udel.edu","ldap2.udel.edu")</TT>
+              </TD>
+            </TR>
+            
+          </TABLE>
+          <BR>
+          <B>IMAP AUTHENTICATOR PREFERENCES:</B>
+          <TABLE WIDTH="75%" CLASS="list">
+            <TR><TH>Key String</TH><TH>Description</TH></TR>
+            
+            <TR>
+              <TD><TT>authIMAPServer</TT></TD>
+              <TD>
+                The IMAP server which Dropbox can try for authentication purposes.<BR><BR>
+                <B>EXAMPLE:</B><BR>
+                <TT>&nbsp;&nbsp;"mail.udel.edu"</TT>
+              </TD>
+            </TR>
+            
+          </TABLE>
+        </TD>
+      </TR>
+      
+    </TABLE>
+  </DIV>
+  
+  <!-- Section 3.3 -->
+  <FONT CLASS="subsection-title">The "Dictionary"</FONT>
+  <DIV CLASS="section">
+    Another global hash is used to store alternate strings that should be substituted throughout the web interface:  at UDel, we call the username a <I>UDelNetID</I>, so throughout the interface we'd like to see that, rather than "username."  The <TT>$DROPBOX_DICTIONARY</TT> hash can currently contain the following keys with the substitution text as the value:
+    <UL>
+      <LI><TT>'Username'       => 'UDelNetID'</TT></LI>
+      <LI><TT>'username'       => 'UDelNetID'</TT></LI>
+      <LI><TT>'Authentication' => 'UD Authentication'</TT></LI>
+      <LI><TT>'username-regex' => '/^([a-z0-9][a-z0-9\_]*)$/'</TT></LI>
+    </UL>
+    That final entry isn't so much a translation as a quick and dirty way of allowing admininstrators to modify the criteria used to determine what is and isn't a valid username, before the chosen authenticator is even queried.<BR>
+    <BR>
+    The <TT>LookupInDict()</TT> function (defined in <TT>lib/NSSUtils.php</TT>) receives a string as its sole argument; if <TT>$DROPBOX_DICTIONARY</TT> contains that string as a key, the value associated with that key is returned (thus, facilitating the substitution).  Otherwise, the original string itself is returned.
+  </DIV>
+  
+  <!-- Section 3.4 -->
+  <FONT CLASS="subsection-title">Generating a Cookie Secret</FONT>
+  <DIV CLASS="section">
+    On a Linux system with the <TT>/dev/random</TT> device, the following can be done:
+    <DIV CLASS="code">$ /bin/dd if=/dev/random bs=1024 count=1 2>/dev/null | md5sum
+bb2c85e5a037ee4c734f25c1b66fa8f1  -</DIV>
+    Without <TT>/dev/random</TT>, simply calculate the MD5 checksum of a word processing document, for example.
+  </DIV>
+
+</DIV>
+
+<!-- Section 4 -->
+<FONT CLASS="section-title">Periodic Maintenance Scripts</FONT>
+<DIV CLASS="section">
+  All of the scripts mentioned in this section will probably need to be modified for use on the target system &mdash; namely, in the path to the <TT>php</TT> interpreter on the first line of the script.<BR>
+  <BR>
+  The Dropbox package includes a script that can be run (via <TT>cron</TT>) to remove outdated dropoffs.  The script essentially takes the current system timestamp and subtracts the number of days specified for <TT>numberOfDaysToRetain</TT>, and locates any dropoffs with a creation date before that.  The files and database records for all that are found are removed.<BR>
+  <BR>
+  <DIV CLASS="code">$ /opt/NSSDropbox/sbin/cleanup.php
+
+  usage:
+  
+   /opt/NSSDropbox/sbin/cleanup.php &lt;Dropbox preference file&gt;
+  
+   The Dropbox preference file path should be canonical, not relative.
+  </DIV>
+  The cron specification looks like
+  <DIV CLASS="code"># Daily cleanup:
+5 0 * * * /opt/NSSDropbox/sbin/cleanup.php /opt/NSSDropbox/www/preferences.php > /dropbox/cleanup.log</DIV>
+
+  The package also includes a script to send an email report of all dropoffs that have been made in the past 24 hours:
+  <DIV CLASS="code">$ /opt/NSSDropbox/sbin/stats.php 
+
+  usage:
+  
+   /opt/NSSDropbox/sbin/stats.php &lt;Dropbox preference file&gt; {email address}
+  
+   The Dropbox preference file path should be canonical, not relative.
+
+   If no email address is provided, the summary is displayed on stdout.
+   </DIV>
+  The cron specification looks like
+  <DIV CLASS="code"># Daily summary:
+0 0 * * * /opt/NSSDropbox/sbin/stats.php /opt/NSSDropbox/www/preferences.php sysadmins@udel.edu > /dev/null</DIV>
+   
+   On the UD Dropbox system <A HREF="http://rrdtool.org">rrdtool</A> is used to maintain a historical record of the daily dropoff count, total uploaded GB, total files, etc.  Those scripts (and the web pages that display the graphs that are created each night with <A HREF="http://rrdtool.org">rrdtool</A>) are included in the package in case those facilities are desired.
+   
+   <P ALIGN="CENTER"><IMG SRC="rrdstats.png" STYLE="border:1px solid #20202F;"></P>
+   
+</DIV>
+
+<!-- Section 5 -->
+<FONT CLASS="section-title">Credits</FONT>
+<DIV CLASS="section">
+  Dropbox 2.1 was created to extend the functionality of the original Dropbox software, written by Doke Scott (UD Network and Systems Services).  Jeffrey Frey, also of UD Network and Systems Services, updated the package with the following design goals in mind:
+  <UL>
+    <LI>Cleaner, richer web interface</LI>
+    <LI>More scalable:
+      <UL>
+        <LI>dropoff/recipient/file info stored in a database</LI>
+        <LI>better on-disk organization of dropped-off files</LI>
+      </UL>
+    </LI>
+    <LI>Ability to upload multiple files in a single dropoff</LI>
+    <LI>Ability to specify multiple recipients for a single dropoff</LI>
+  </UL>
+  The latter two goals aim to reduce redundant dropoffs, thus saving disk space &mdash; rather than dropping off the same 10 MB file to four individuals, only one dropoff and one copy of the file is necessary.<BR>
+  <BR>
+  PHP includes support for SQLite2 databases.  <A HREF="http://sqlite.org/">SQLite</A> uses a single disk file to store an SQL database, in sharp contrast to database servers like MySQL and PostgreSQL.  Thus, the initial setup of Dropbox is simplified by removing the need for the administrator to build/configure a database server.  SQLite may not be the most efficient database environment out there, but it provides an easy way to store and randomly retrieve dropoff records.  The single file also makes it easy to backup the database; one could run a cron job that makes an RCS diff of the database every 15 minutes.  Were the database to be corrupted somehow, it can easily be rolled back to a version that was not corrupted and isn't missing too many dropoffs.
+</DIV>
+
+<!-- Page footer -->
+<TABLE ID="footer"><TR><TD>
+  copyright &copy; 2007, UD Network and Systems Services
+</TD></TR></TABLE>
+
+  </BODY>
+</HTML>

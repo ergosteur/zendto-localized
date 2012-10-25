@@ -1,0 +1,19 @@
+.emailButton {
+    	/*float: none;*/
+    	zoom: 1; 
+	display: inline-block; /*  for block-level elements in IE 7 and 6. See http://foohack.com/2007/11/cross-browser-support-for-inline-block-styling/ */
+	/*display: inline;
+	width:200px;*/	
+}
+
+.emailButton a.remove img {
+	top: 3px;
+}
+
+#sendSingle > div {
+	margin-bottom:4px;
+}
+
+#sendSingle > button {
+	margin-left:-34px;
+}

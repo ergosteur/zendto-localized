@@ -1,0 +1,14 @@
+If you want to use SQLite with ZendTo, just ensure you have PHP's
+SQLite support installed, and then set the relevant settings in
+www/preferences.php to tell it to use SQLite and the path to the
+zendto.sqlite database file.
+
+If the database file doesn't already exist, it will create it for you
+automatically.
+
+If you are upgrading from Dropbox, then see the sbin/UPGRADE
+directory, there is a README in there that will tell you what to do.
+
+-- 
+Jules
+Jules@ZendTo.com

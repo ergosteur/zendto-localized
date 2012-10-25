@@ -1,0 +1,228 @@
+Install CentOS 5.5
+At boot menu, "linux text".
+Skip media testing.
+In English, using a US keyboard.
+Initialise disk.
+Custom disk layout.
+Create partition on sda, swap, 2000 MB, fixed size, primary.
+Create partition on sda, ext3, fill all available space, primary.
+Use GRUB.
+No boot loader configuration.
+No GRUB password.
+Boot from /dev/sda1.
+Boot loader on /dev/sda.
+Configure network interface.
+Activate on boot, enable IPv4 and IPv6.
+Dynamic IP for IPv4.
+Automatic for IPv6.
+Hostname via DHCP.
+System clock uses UTC, Europe/London.
+Root password = zendto
+Install nothing and customize software selection.
+Install nothing.
+Required install media = Continue.
+Reboot at end of installation.
+
+SSH in remotely, stop using console.
+
+Login as user root with password zendto
+
+passwd root (set it to something secure for now)
+
+rpm -e --allmatches gtk2 trousers ecryptfs-utils
+yum -y install sendmail sendmail-cf
+yum -y install httpd mod_ssl
+yum -y install mysql mysql-server
+chkconfig mysqld on
+chkconfig iptables off
+chkconfig ip6tables off
+chkconfig httpd on
+yum -y install php php-cli php-common php-imap php-ldap php-mysql
+yum -y install elinks rpm-build
+yum -y install vixie-cron crontabs logrotate yum-cron
+yum -y update
+yum clean all
+
+elinks http://packages.sw.be/
+Download from "clamav" dir: clamav clamav-db clamd
+Download from "lua" dir: lua lua-devel
+Download from "rrdtool" dir: lua-rrdtool perl-rrdtool rrdtool
+yum -y install libdbi lua-devel gettext lua ruby xorg-x11-fonts-Type1
+rpm -Uvh *rpm
+freshclam
+rm -f *rpm
+
+Fetch php SRPM from
+http://www.mirrorservice.org/sites/mirror.centos.org/5.5/os/SRPMS/
+
+yum -y install make bzip2-devel curl-devel db4-devel expat-devel gmp-devel aspell-devel httpd-devel libjpeg-devel libpng-devel libstdc++-devel openssl-devel sqlite-devel zlib-devel pcre-devel libtool gcc-c++ krb5-devel libc-client-devel cyrus-sasl-devel openldap-devel mysql-devel postgresql-devel unixODBC-devel libxml2-devel net-snmp-devel libxslt-devel libxml2-devel ncurses-devel gd-devel freetype-devel pam-devel
+
+rpm -Uvh php-5*src.rpm
+cd /usr/src/redhat/SPECS
+rpmbuild -bp php.spec
+cd /usr/src/redhat/BUILD
+cp -pr php-5.1.6 php-5.1.6.new
+cd php-5.1.6.new
+
+perl -i -pe 's/int zend_atoi/long zend_atoi/' Zend/zend_operators.[ch];
+perl -i -pe 's/\n/@@@@@@/g' Zend/zend_operators.c;
+perl -i -pe 's/(long zend_atoi.*?)int retval/$1long retval/m' Zend/zend_operators.c;
+perl -i -pe 's/@@@@@@/\n/g' Zend/zend_operators.c;
+perl -i -pe 's/atoi\(content_length\)/atol(content_length)/' `find sapi -name '*.c'`
+perl -i -pe 's/\(uint\)( SG\(request_info\))/$1/' `find sapi -name '*.c'`;
+perl -i -pe 's/uint post_data_length, raw/uint IGNORE_post_data_length, IGNORE_raw/' main/SAPI.h;
+perl -i -pe 's/} sapi_request_info/\tlong post_data_length, raw_post_data_length;\n} sapi_request_info/' main/SAPI.h;
+perl -i -pe 's/int read_post_bytes/long read_post_bytes/'    main/SAPI.h;
+perl -i -pe 's/int boundary_len=0, total_bytes=0/long total_bytes=0; int boundary_len=0/' main/rfc1867.c;
+
+cd ..
+diff -Naur php-5.1.6 php-5.1.6.new > php-biguploads.patch
+mv php-biguploads.patch /usr/src/redhat/SOURCES
+cd ../SPECS
+Edit php.spec
+- Add line to end of all Patch???: lines saying
+Patch999: php-biguploads.patch
+- Add line to end of all %patch??? lines saying
+%patch999 -p1 -b .biguploads
+- Add .jkf in the "Release:" line so it says "Release: 27.jkf.%{?dist}"
+
+rpmbuild -ba php.spec
+
+cd ../RPMS
+cd ***Either i686 or x86_64***
+rpm -Uvh php-5* php-cli* php-common* php-imap* php-ldap* php-mysql* php-pdo*
+cd ../..
+rm -rf BUILD/* RPMS/x86_64/* SRPMS/*
+
+rpm -e gcc gcc-c++ apr-devel apr-util-devel httpd-devel
+rpm -qa | grep -e '-devel-' | grep -v 'lua-devel-' | xargs rpm -e --allmatches
+rpm -e --allmatches mesa-libGL
+
+Edit /etc/php.ini
+allow_call_time_pass_reference = On
+max_execution_time = 7200
+max_input_time = 7200
+memory_limit = 300M
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
+display_errors = On
+post_max_size = 50000M
+upload_tmp_dir = /var/zendto/incoming
+upload_max_filesize = 50G
+This one is not in CentOS 5.5: max_file_uploads = 200
+
+cd /etc/httpd/conf
+Edit httpd.conf
+- ServerName zendto-centos.ecs.soton.ac.uk:80
+- DocumentRoot "/opt/zendto/www"
+- <Directory "/opt/zendto/www">
+- HostnameLookups On
+cd /etc/httpd/conf.d
+Edit ssl.conf
+- SSLCertificateFile /etc/pki/tls/certs/zendto-ssl.crt
+- SSLCertificateKeyFile /etc/pki/tls/private/zendto-ssl.key
+- SSLCACertificateFile /etc/pki/tls/certs/ca-bundle.crt
+cd /etc/pki/tls
+cp private/localhost.key private/zendto-ssl.key
+cp certs/localhost.crt certs/zendto-ssl.crt
+
+cd
+openssl req -newkey rsa:1024 -keyout key.pem -out zendto-ssl.csr
+- Answer each of the questions, giving your full hostname for the "Common Name".
+openssl rsa -in key.pem -out zendto-ssl.key
+- This removes the passphrase, and is essential.
+- Enter the passphrase you chose in the previous "openssl req" command.
+chmod 0400 zendto-ssl.key
+chown root zendto-ssl.key
+chgrp root zendto-ssl.key
+mv zendto-ssl.key /etc/pki/tls/
+- Give the zendto-ssl.csr text file to your SSL Certificate provider and get
+  an SSL server certificate for the server software called "Apache-ModSSL"
+  (or its nearest alternative). You will get a file back containing
+  the certificate. This should be readable in a text editor. Call it
+  "zendto-ssl.crt".
+chmod a=r zendto-ssl.crt
+chown root zendto-ssl.crt
+chgrp root zendto-ssl.crt
+cp zendto-ssl.crt /etc/pki/tls/certs/
+- You may also need to get a Certificate Authority Bundle for your
+  cert provider. Though try a range of browsers without using this file.
+scp root@dropoff-dev:/opt/dropbox/zendto/docs/building-vm/ca-bundle.crt .
+chmod a+r ca-bundle.crt
+cp ca-bundle.crt /etc/pki/tls/certs/
+
+usermod -a -G apache clamav
+
+cd /var
+mkdir zendto zendto/dropoffs zendto/incoming zendto/rrd
+touch zendto/zendto.log
+chown apache zendto/*
+chgrp apache zendto zendto/*
+chmod g+w zendto zendto/zendto.log
+
+export EDITOR=vi
+crontab -e
+Add these 2 lines at the end:
+5 0 * * * /usr/bin/php /opt/zendto/sbin/cleanup.php /opt/zendto/config/preferences.php
+2 10 * * * /usr/bin/php /opt/zendto/sbin/rrdInit.php /opt/zendto/config/preferences.php
+2 12 * * * /usr/bin/php /opt/zendto/sbin/rrdUpdate.php /opt/zendto/config/preferences.php
+
+Edit /etc/mail/sendmail.mc
+- Uncomment the SMART_HOST define line
+- Set the name of the SMTP server in that line
+cd /etc/mail && make
+
+Edit /etc/sysconfig/selinux
+- SELINUX=DISABLED
+
+Build all the source code owned by root.root under /opt/zendto,
+making /opt/ZendTo-3.52 the real dir with /opt/zendto a symlink to it.
+
+mkdir /opt/zendto/cache /opt/zendto/templates_c
+chown apache /opt/zendto/cache /opt/zendto/templates_c
+chgrp apache /opt/zendto/cache /opt/zendto/templates_c
+chmod g+w /opt/zendto/cache /opt/zendto/templates_c
+
+service mysqld start
+cd /opt/zendto/sql
+mysql
+CREATE DATABASE zendto;
+GRANT ALL PRIVILEGES ON zendto.* TO zendto@localhost IDENTIFIED by '3ertljkfds';
+
+exit
+mysql --user=zendto --password='3ertljkfds' zendto < zendto.MySQL
+
+cd /opt/zendto/config
+Edit preferences.php
+- Set database back end to MySQL
+- Put in password for MySQL = 3ertljkfds
+
+cd /opt/zendto/sbin
+php rrdInit.php /opt/zendto/config/preferences.php
+Ignore any "PHP Notice" output from that.
+
+reboot
+
+Load http://zendto-centos.ecs.soton.ac.uk/about.php in a web browser.
+That will create the database.
+
+
+-----------------------------------------------
+
+rm -rf ~/* ~/.bash_history ~/.ssh/known_hosts
+
+yum clean all
+cd /etc/sysconfig/network-scripts
+Edit ifcfg-eth0
+- Comment out the HWADDR setting
+cp ifcfg-eth0 ifcfg-eth1
+cd /var/log
+for F in dmesg lastlog messages httpd/access_log httpd/error_log ; do :> $F; done
+cd
+dd if=/dev/zero of=BIGFILE bs=1024000
+rm BIGFILE
+passwd root
+Reset password to "zendto".
+shutdown -h now
+
+Then export an OVA from vSphere client and run the Build.all script.
+Huge !! :-(

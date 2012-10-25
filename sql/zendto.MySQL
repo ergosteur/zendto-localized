@@ -1,0 +1,166 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.0-beta1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generato il: 17 giu, 2010 at 01:21 PM
+-- Versione MySQL: 5.1.47
+-- Versione PHP: 5.3.2
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `dropbox`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `reqtable`
+--
+
+CREATE TABLE IF NOT EXISTS `reqtable` (
+  `Auth` varchar(64) NOT NULL,
+  `SrcName` varchar(32) DEFAULT NULL,
+  `SrcEmail` text NOT NULL,
+  `SrcOrg` varchar(32) DEFAULT NULL,
+  `DestName` varchar(32) DEFAULT NULL,
+  `DestEmail` text NOT NULL,
+  `Note` text NOT NULL,
+  `Subject` text NOT NULL,
+  `Expiry` bigint(20) NOT NULL,
+  PRIMARY KEY (`Auth`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Request Data';
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `authtable`
+--
+
+CREATE TABLE IF NOT EXISTS `authtable` (
+  `Auth` varchar(64) NOT NULL,
+  `FullName` varchar(32) DEFAULT NULL,
+  `Email` text NOT NULL,
+  `Organization` varchar(32) DEFAULT NULL,
+  `Expiry` bigint(20) NOT NULL,
+  PRIMARY KEY (`Auth`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Authorisation Data';
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `dropoff`
+--
+
+CREATE TABLE IF NOT EXISTS `dropoff` (
+  `rowID` int(11) NOT NULL AUTO_INCREMENT,
+  `claimID` varchar(16) NOT NULL,
+  `claimPasscode` varchar(16) DEFAULT NULL,
+  `authorizedUser` varchar(16) DEFAULT NULL,
+  `senderName` varchar(32) NOT NULL,
+  `senderOrganization` varchar(32) NOT NULL,
+  `senderEmail` varchar(255) NOT NULL,
+  `confirmDelivery` tinyint(1) NOT NULL DEFAULT '0',
+  `senderIP` varchar(255) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `note` tinytext NOT NULL,
+  PRIMARY KEY (`rowID`),
+  KEY `claimID` (`claimID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Data about dropoffs of files' AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `file`
+--
+
+CREATE TABLE IF NOT EXISTS `file` (
+  `rowID` int(11) NOT NULL AUTO_INCREMENT,
+  `dID` int(11) NOT NULL COMMENT 'References rowID in dropoff table',
+  `tmpname` text NOT NULL,
+  `basename` text NOT NULL,
+  `lengthInBytes` bigint(20) NOT NULL,
+  `mimeType` varchar(32) NOT NULL,
+  `description` tinytext NOT NULL,
+--  PRIMARY KEY (`dID`),
+  PRIMARY KEY (`rowID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Dropped-off files';
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `pickup`
+--
+
+CREATE TABLE IF NOT EXISTS `pickup` (
+  `dID` int(11) NOT NULL COMMENT 'References rowID in dropoff table',
+  `authorizedUser` varchar(16) NOT NULL,
+  `emailAddr` tinytext,
+  `recipientIP` varchar(255) NOT NULL,
+  `pickupTimestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `recipient`
+--
+
+CREATE TABLE IF NOT EXISTS `recipient` (
+  `dID` int(11) NOT NULL COMMENT 'References rowID in dropoff table',
+  `recipName` varchar(32) NOT NULL,
+  `recipEmail` text NOT NULL,
+  KEY `dID` (`dID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Recipient data';
+
+-- -----------
+
+--
+-- Table usertable
+--
+
+CREATE TABLE IF NOT EXISTS `usertable` (
+  `username`     varchar(64) NOT NULL,
+  `password`     varchar(64) NOT NULL,
+  `mail`         varchar(256) NOT NULL,
+  `displayname`  varchar(256) NOT NULL,
+  `organization` varchar(256),
+  `quota`        real,
+  PRIMARY KEY (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Table regexps
+--
+
+CREATE TABLE IF NOT EXISTS `regexps` (
+  `type`    int(11) NOT NULL,
+  `re`      varchar(500) NOT NULL,
+  `created` bigint(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Table lockout
+--
+
+CREATE TABLE IF NOT EXISTS `loginlog` (
+  `username`  varchar(64) NOT NULL,
+  `created`   bigint(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Table librarydesc
+--
+
+CREATE TABLE IF NOT EXISTS `librarydesc` (
+  `filename` varchar(255) NOT NULL,
+  `description` varchar(255)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+

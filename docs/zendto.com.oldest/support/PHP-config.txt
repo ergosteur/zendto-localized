@@ -1,0 +1,28 @@
+There are a few php.ini settings which you need to change, as well as
+the >2Gb uploads patch mentioned elsewhere on this site.
+
+The following settings allow the script to upload for 2 hours,
+with a max upload size of roughly 50Gbytes.
+
+; Maximum execution time of each script, in seconds
+max_execution_time = 7200
+; Maximum amount of time each script may spend parsing request data
+max_input_time = 7200
+; Maximum amount of memory a script may consume (16MB)
+memory_limit = 300M
+
+post_max_size = 50000000000
+
+; Whether to allow HTTP file uploads.
+file_uploads = On
+
+; Temporary directory for HTTP uploaded files (will use system default if not
+; specified).
+; Set this to the absolute path of your zendto/incoming directory.
+; Otherwise it will probably use /tmp which is not what you want!
+upload_tmp_dir = /var/zendto/incoming
+
+; Maximum allowed size for uploaded files.
+upload_max_filesize = 50000000000
+
+

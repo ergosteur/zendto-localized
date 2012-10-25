@@ -1,0 +1,82 @@
+Julian Field 27th June 2010
+
+This is how to setup the VMware image, once you have converted the OVA
+file into a virtual machine.
+
+In the second section, I will explain how to build a VM from the OVA
+file if you cannot import the OVA file successfully.
+
+Setting up the Ubuntu Dropoff Server
+
+Being a Ubuntu system, direct access to the root account is blocked.
+You can login with
+  Username = zendto
+  Password = zendto
+Please change this password immediately!
+There is a huge amount of documentation about Ubuntu on the web, so this
+should be your first place to look for information not provided here or
+on the Dropoff website or sites linked from there.
+
+The VM builds will get their network settings from DHCP.
+If you need to use static addressing, edit /etc/network/interfaces (on
+Ubuntu / Debian systems), or /etc/sysconfig/network and
+/etc/sysconfig/network-scripts/ifcfg-eth* (on RedHat / CentOS systems)
+
+On an Ubuntu or Debian system, get root by using this command:
+  sudo su -
+
+Then edit
+  /opt/zendto/config/preferences.php
+and
+  /opt/zendto/config/zendto.conf
+to setup the ZendTo package for your site. Refer to
+  http://www.zendto.com/support
+for more information about setting up the user authentication in
+particular. Most of the rest of preferences.php should be left alone
+once you have got the authentication working, then only change it a
+little at a time until it displays and works how you want it to.
+
+The supplied preferences.php works by using IMAP authentication.
+It treats ZendTo recipients as local if their email address matches
+*@soton.ac.uk or *@*.soton.ac.uk. I have personally only ever used the
+Active Directory authentication module, so please don't ask me much
+about the other authentication systems it supports!
+
+To update your Ubuntu system to the latest versions and apply all patches,
+run these commands:
+  sudo apt-get update
+  sudo apt-get dist-upgrade
+You may need to reboot after applying these patches.
+
+**************************************
+*** IMPORTING THE OVA FILE BY HAND ***
+**************************************
+
+Many systems will apparently not import the OVA file successfully.
+However, you can still easily convert it into a Virtual Machine.
+The OVA file is actually just a tar archive, so rename it to end in
+".tar" instead of ".ova". Then extract all the files from that tar
+archive. You will get 3 files:
+1. .mf - This is checksums of the other files in the archive.
+2. .ovf - This describes the virtual hardware in a readable XML format.
+3. .vmdk - This is the virtual hard disk image.
+
+So create a new VM, with these settings:
+* Operating System is Linux, Ubuntu 10 64-bit
+* 1 processor
+* 1 SCSI controller, an "LSI Logic Parallel"
+* 1 network adapter, preferably a pcnet32 or else e1000
+* 800MB RAM is plenty
+* Create the hard disk using an existing virtual hard disk,
+  and set it to the .vmdk file you just created from the archive.
+
+That's about all you should need.
+With any luck it will boot when you power it on!
+
+Now go and read the first half of this document again, as that will
+tell you what to do next.
+
+-- 
+If you have any questions, then please ask me at
+  Jules@ZendTo.com
+

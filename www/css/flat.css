@@ -1,0 +1,321 @@
+BODY {
+  background:             white;
+  color:                  #404040;
+  
+  font-family:            "Lucida Grande",sans-serif;
+  font-size:              12px;
+  
+  margin:                 0px;
+}
+
+TABLE {
+  color:                  #404040;
+}
+
+A {
+  color:                  #404040;
+  text-decoration:        none;
+  font-weight:            bold;
+}
+A:hover {
+  color:                  #808080;
+  text-decoration:        underline;
+}
+
+/*
+ * Header:
+ */
+TABLE.UD_header {
+  border-collapse:        collapse;
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_header_left {
+  background:             url("../images/flat/dropbox-header-left.png");
+  background-repeat:      no-repeat;
+  
+  height:                 94px;
+  width:                  94px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_header_top {
+  background:             url("../images/flat/dropbox-header-top.png");
+  background-repeat:      repeat-x;
+  
+  height:                 40px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_header_title {
+  color:                  #404040;
+  
+  font-size:              24px;
+  font-weight:            bold;
+  
+  text-align:             right;
+  
+  height:                 54px;
+  
+  margin:                 0px;
+  padding:                0px;
+  padding-right:          24px;
+  border:                 0px;
+}
+
+/*
+ * Footer:
+ */
+TABLE.UD_footer {
+  border-collapse:        collapse;
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_footer_right {
+  background:             url("../images/flat/dropbox-footer-right.png");
+  background-repeat:      no-repeat;
+  
+  height:                 50px;
+  width:                  96px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_footer_right_admin {
+  background:             url("../images/flat/dropbox-footer-right-admin.png");
+  background-repeat:      no-repeat;
+  
+  height:                 50px;
+  width:                  96px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_footer_bottom {
+  background:             url("../images/flat/dropbox-footer-bottom.png");
+  background-repeat:      repeat-x;
+  
+  height:                 20px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD#UD_footer_text {
+  color:                  #404040;
+  
+  font-size:              10px;
+  font-weight:            bold;
+  
+  text-align:             left;
+  
+  height:                 30px;
+  
+  margin:                 0px;
+  padding:                0px;
+  padding-left:           4px;
+  border:                 0px;
+}
+
+/*
+ * Text button style:
+ */
+A.UD_textbutton {
+  color:                  #404040;
+  text-decoration:        none;
+  font-weight:            bold;
+  display: block;
+  padding: 5px;
+}
+A.UD_textbutton:hover {
+  color:                  #808080;
+  text-decoration:        underline;
+}
+A.UD_textbutton_admin {
+  color:                  #600000;
+  text-decoration:        none;
+  font-weight:            bold;
+  display: block;
+  padding: 5px;
+}
+A.UD_textbutton_admin:hover {
+  color:                  #C00000;
+  text-decoration:        underline;
+}
+A.UD_textbuttonedge {
+  text-decoration: none;
+  display: block;
+  padding: 4px;
+}
+TABLE.UD_textbutton {
+  border-collapse:        collapse;
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_left {
+  background:             url("../images/flat/text-button-left.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_left_admin {
+  background:             url("../images/flat/text-button-left_admin.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_content {
+  background:             url("../images/flat/text-button-bg.png");
+  background-repeat:      repeat-x;
+  
+  height:                 25px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+  
+  color:                  #404040;
+  font-weight:            bold;
+  font-size:              10px;
+}
+TD.UD_textbutton_content_admin {
+  background:             url("../images/flat/text-button-bg_admin.png");
+  background-repeat:      repeat-x;
+  
+  height:                 25px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+  
+  color:                  #800000;
+  font-weight:            bold;
+  font-size:              10px;
+}
+TD.UD_textbutton_right {
+  background:             url("../images/flat/text-button-right.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+TD.UD_textbutton_right_admin {
+  background:             url("../images/flat/text-button-right_admin.png");
+  background-repeat:      no-repeat;
+  
+  height:                 25px;
+  width:                  12px;
+  
+  margin:                 0px;
+  padding:                0px;
+  border:                 0px;
+}
+
+/*
+ * Form tables:
+ */
+TABLE.UD_form {
+  border-collapse:        collapse;
+  border:                 2px solid #404040;
+  background:             #F0F0F0;
+  padding:                5px;
+}
+TR.UD_form_header {
+  background:             #404040;
+  color:                  #F0F0F0;
+  font-size:              12px;
+  font-weight:            bold;
+}
+TR.UD_form_footer {
+  background:             #404040;
+  color:                  #F0F0F0;
+}
+TR.UD_form_lined {
+  border-bottom:          1px solid #404040;
+}
+TD.UD_form_lined {
+  border-right:           1px solid #404040;
+}
+
+/*
+ *
+ */
+TABLE.UD_error {
+  border-top:             2px solid #404040;
+  border-bottom:          2px solid #404040;
+}
+TD.UD_error_title {
+  font-size:              12px;
+  font-weight:            bold;
+}
+TD.UD_error_message {
+  font-size:              10px;
+  
+  text-align:             justify;
+}
+
+/*
+ * Page content area:
+ */
+DIV.content {
+  color:                  #404040;
+  
+  margin-left:            25px;
+  margin-right:           10px;
+}
+
+/*
+ * Page footer area:
+ */
+DIV.footer {
+  color:                  #404040;
+  
+  margin:                 4px;
+  
+  border-top:             1px solid #404040;
+  
+  font-size:              10px;
+  font-weight:            bold;
+}
+
+/*
+ * Provide some absolute sizing for these tags:
+ */
+H1 {
+  font-size:              32px;
+}
+H2 {
+  font-size:              24px;
+}
+H3 {
+  font-size:              18px;
+}
+H4 {
+  font-size:              14px;
+}
+H5 {
+  font-size:              12px;
+}

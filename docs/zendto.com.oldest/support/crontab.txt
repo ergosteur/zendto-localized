@@ -1,0 +1,7 @@
+There are a couple of lines you need to add to root's crontab.
+Obviously you will need to replace the paths with those appropriate
+for your system.
+
+5 0 * * * /usr/bin/php /opt/zendto/sbin/cleanup.php /opt/zendto/config/preferences.php
+2 10 * * * /usr/bin/php /opt/zendto/sbin/rrdInit.php /opt/zendto/config/preferences.php
+2 12 * * * /usr/bin/php /opt/zendto/sbin/rrdUpdate.php /opt/zendto/config/preferences.php
