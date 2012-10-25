@@ -1,0 +1,9 @@
+{include file="header.tpl"}
+
+{if $success}
+  <h3>Le fichier partagé avec ID {$claimID} a été supprimé. </h3>
+{else}
+  <h3>Impossible de supprimé le partage {$claimID}. Veuillez contacter l'aide technique.</h3>
+{/if}
+
+{include file="footer.tpl"}

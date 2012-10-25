@@ -1,0 +1,90 @@
+#
+# This file contains all the user-interface settings for ZendTo.
+# You will not need to change much in here to start with, but do look
+# for the strings "soton", "Southampton" and "ECS" to be sure it has
+# the correct name of your organisation and site.
+#
+
+# These are settings used everywhere
+ServiceTitle = "ZendTo"
+
+# This is what is placed in the top right corner of every page.
+# Make it either the name of your organisation, or the HTML of a transparent
+# logo for your organisation.
+ServiceLogo  = "ZendTo"
+#ServiceLogo = '<img src="https://www.soton.ac.uk/images/bg_logo_small.png" alt="University Logo"/>'
+
+# These are settings used in the web interface
+ContactInfo = "Copyright &copy 2011"
+Username = "Southampton Username"
+NonLocalUsers = "non-Southampton users"
+LocalUser = "a Southampton user"
+OrganizationType = "the University"
+
+# These are settings used in email messages
+EmailSenderAddress = 'ZendTo <helpdesk@zend.to>'
+UnknownRecipient = "One of the recipients"
+VerifyEmailSubject = "[ZendTo] You are trying to drop-off some files"
+# The %s in the next lines are replaced with the name of who picked it up
+PickupEmailSubject = '[ZendTo] %s has picked up your drop-off!'
+DropoffEmailSubject1 = '[ZendTo] %s has dropped off a file for you'
+DropoffEmailSubject2 = '[ZendTo] %s has dropped off files for you'
+
+# The style of the images in the web interface.
+# In version 4, only "swish" is supported, so leave this alone unless you
+# produce your own entire user interface.
+CSSTheme = "swish"
+
+#
+# These are all the error messages that can be generated when adding a dropoff
+#
+ErrorWillNotSend = "You must be logged in as a Southampton user in order to drop-off a file for a non-Southampton user.<br />&nbsp;<br />Return to the ZendTo main menu to log in and then try again."
+
+# These other error messages do not mention the name of your site or service.
+
+ErrorAddDropoff = "Unable to add a dropoff record to the database, please notify the administrator."
+ErrorAdminOnly = "This is available to administrators only."
+ErrorBadClaim = "The Claim ID or Passcode was incorrect, or the drop-off has expired; please recheck and note that drop-offs must be collected before they expire otherwise they are automatically deleted."
+ErrorBadLogin = "The username or password was incorrect."
+ErrorBadRecipientsFile = "Could not read the uploaded recipients file."
+ErrorBadRecipient = "The recipient email address '%s' is invalid.  Use the back button in your browser to go back and fix this address before trying again."
+ErrorBadTemp = "The server's temporary folder is misconfigured."
+ErrorBeginTransaction = "Unable to begin database transaction, please notify the administrator."
+ErrorCancelUpload = "If you leave this page, you will abandon this drop-off."
+ErrorDownloadAuth = "Please click again on the link you were sent to pickup your files."
+ErrorDropoffQuota = "You do not have enough remaining storage quota for this drop-off. You need at least another %s."
+ErrorDropoffTooBig = "The total size of the uploaded files exceeds the maximum for a single drop-off.  Altogether, a single upload can be (at most) %s."
+ErrorFileTooBig = "The file size exceeds the size limit (the maximum is %s)."
+ErrorIPChanged = "Your computer address appears to have changed. Click again on the link you were sent to pickup your files."
+ErrorNamedDrop = "Trouble while attempting to drop '%s' into its dropoff directory, please notify the administrator."
+ErrorNamedFileTooBig = "The file '%s' was too large.  Each uploaded file may be (at most) %s."
+ErrorNamedStore = "Trouble while attempting to save the information for '%s', please notify the administrator."
+ErrorNoEmail = "You must specify all recipients' email addresses in the form.  Use the back button in your browser to go back and fix this omission before trying again."
+ErrorNoFile = "No file was actually uploaded."
+ErrorNoFiles = "No files were uploaded."
+ErrorNoFiles = "You must choose at least one file to drop-off.  Use the back button in your browser to go back and fix this omission before trying again."
+ErrorNoRecipientsFile = "No recipient file was actually uploaded."
+ErrorNoTemp = "The server was not configured with a temporary folder for uploads."
+ErrorNoteTooLong = "Your note to the recipients is %d characters long. It must be less than %d. Use the back button in your browser to go back and shorten your note before trying again."
+ErrorNotLoggedIn = "This feature is only available to users who have logged in."
+ErrorNotPerson = "You failed the test to see if you are a person and not a computer. Please try again."
+ErrorPartialUpload = "The file was only partially uploaded; your network connection may have timed-out while attempting to upload."
+ErrorReadAuth = "Failed to read your verification information. Your drop-off session has probably expired. Please start again."
+ErrorRecipientsFileTooBig = "The recipients file size exceeds the size limit (the maximum is %s)."
+ErrorRecipientsPartialUpload = "The recipients file was only partially uploaded; your network connection may have timed-out while attempting to upload."
+ErrorRecipientsTooBigForPHP   = "The recipients file size exceeds the limit imposed by PHP on the server; please contact the administrator regarding this problem."
+ErrorRequestExpired = "Your request key has expired. Please start again."
+ErrorRequestUsedLogin = "The Request Code could not be found or has been used. Either complete this form, or press your browser's Back button and re-enter your Request Code."
+ErrorRequestUsed = "Your Request Code could not be found or has already been used. You can still send files straight from the main menu, or ask for a new Request Code."
+ErrorSenderBadEmail = "The sender email address you entered was invalid.  Use the back button in your browser to go back and fix this omission before trying again."
+ErrorSenderEmail = "You must specify your own email address in the form.  Use the back button in your browser to go back and fix this omission before trying again."
+ErrorSenderName = "You must specify your name in the form.  Use the back button in your browser to go back and fix this omission before trying again."
+ErrorSessionExpired = "Your session has expired. Please start again."
+ErrorStoreRecipients = "Could not add recipients to the database."
+ErrorSubjectTooLong = "Your subject line to the recipients is %d characters long. It must be less than %d. Use the back button in your browser to go back and shorten your subject before trying again."
+ErrorTooBigForPHP   = "The file size exceeds the limit imposed by PHP on the server; please contact the administrator regarding this problem."
+ErrorUnauthorizedUser = "Sorry, you are not authorized to use this service."
+ErrorUniqueDir = "A unique directory to contain your dropped-off files could not be created; please contact the administrator."
+ErrorVirusFailed = "The attempt to virus-scan your drop-off failed. Please contact your administrator for assistance."
+ErrorVirusFound = "One or more of the files you uploaded was infected with a virus. The drop-off has been abandoned. Please virus-scan your files and try again."
+ErrorWhileUploading = "There was an error while uploading '%s'.  "
