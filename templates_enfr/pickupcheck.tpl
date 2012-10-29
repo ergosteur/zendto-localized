@@ -10,11 +10,12 @@
       <table border="0" cellpadding="4">
 
             <tr class="UD_form_header"><td colspan="2">
-              <h4>Please prove you are a person</h4>
+              <h4>Validation d'identité</h4>
             </td></tr>
 
             <tr>
               <td colspan="2" align="center">
+                Pour confirmer que vous n'êtes pas un système automatisé, veuillez compléter le formulaire ci-dessous:<br/>
                 To confirm that you are a <i>real</i> person (and not a computer), please fill in the form below:<br />&nbsp;<br />
                 {$recaptchaHTML}
                 <br />

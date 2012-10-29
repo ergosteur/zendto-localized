@@ -40,6 +40,7 @@
 <body>
 {/if}
 
+<!--[if lt IE 7]> <div style=' clear: both; height: 59px; padding:0 0 0 0px; position: relative;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="/images/upgradeie6.jpg" border="0" height="42" width="820" alt="La version du navigateur Internet Explorer que vous utilisez n'est pas compatible. Certaines fonctionnalités risquent de ne pas fonctionner normalement. Passez à un navigateur plus récent." /></a></div> <![endif]-->
 <!--[if lt IE 7]> <div style=' clear: both; height: 59px; padding:0 0 0 0px; position: relative;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="/images/upgradeie6.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div> <![endif]-->
 
 <!-- Begin page content -->
@@ -47,13 +48,13 @@
 	<div id="logo"><a href="/"><!--<img src="{$padlockImage}" alt="{$padlockImageAlt}"/>--> {#ServiceLogo#}</a></div>
 	<div id="topMenu">
 		<ul>
-			<li id="homeLink" class="selected"><a href="/">Home</a></li>					
+			<li id="homeLink" class="selected"><a href="/">Acceuil/Home</a></li>					
 		{if $isAuthorizedUser}
-			<li id="inboxLink"><a href="pickup_list.php">Inbox</a></li>
-			<li id="outboxLink"><a href="dropoff_list.php">Outbox</a></li>
-			<li id="logoutLink"><a href="index.php?action=logout">Logout</a></li>
+			<li id="inboxLink"><a href="pickup_list.php">Réception/Inbox</a></li>
+			<li id="outboxLink"><a href="dropoff_list.php">Envoi/Outbox</a></li>
+			<li id="logoutLink"><a href="index.php?action=logout">Déconnexion/Logout</a></li>
 		{else}
-			<li id="loginLink"><a href="index.php?action=login">Login</a></li>
+			<li id="loginLink"><a href="index.php?action=login">Connexion/Login</a></li>
 		{/if}			
 		</ul>
 	</div>

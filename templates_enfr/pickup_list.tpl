@@ -3,8 +3,8 @@
 {if $isAuthorizedUser}
 
   {if $countDropoffs>0}
-<h1>Inbox</h1>
-<h5>Click on a drop-off claim ID to view the information and files for that drop-off.</h5>
+<h1>Réception/Inbox</h1>
+<h5>Cliquez un ID pour voir plus d'information et les fichiers associés<br/>Click on a drop-off claim ID to view the information and files for that drop-off.</h5>
 <table class="UD_form" cellpadding="4" width="100%">
 	<thead class="UD_form_header">
    	 <td>Claim ID</td>
@@ -23,7 +23,7 @@
     {/foreach}
 
   <tr class="UD_form_footer">
-    <td colspan="3" align="center">{$countDropoffs} drop-off{if $countDropoffs ne 1}s{/if} {$formattedTotalBytes}</td>
+    <td colspan="3" align="center">{$countDropoffs} partage{if $countDropoffs ne 1}s{/if} {$formattedTotalBytes}</td>
   </tr>
 </table>
 
@@ -33,7 +33,7 @@
 </form>
 
   {else}
-<h5>There are no drop-offs available for you at this time.</h5>
+<h5>Il n'y a aucun partage actuellement disponible pour vous. <br/>There are no drop-offs available for you at this time.</h5>
   {/if}
 
 {/if}

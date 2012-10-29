@@ -21,8 +21,8 @@
 
 {function name=footerButtons}
   <table border="0" cellpadding="4"><tr>
-  <td>{call name=button href="{$zendToURL}" text="Return to the {#ServiceTitle#} main menu"}</td>
-  {if $isAuthorizedUser}<td>{call name=button href="{$zendToURL}?action=logout" text="Logout"}</td>{/if}</tr>
+  <td>{call name=button href="{$zendToURL}" text="Menu principal/Main menu"}</td>
+  {if $isAuthorizedUser}<td>{call name=button href="{$zendToURL}?action=logout" text="Déconnexion/Logout"}</td>{/if}</tr>
   </table>
 {/function}
 

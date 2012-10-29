@@ -382,8 +382,11 @@ function validateForm()
 </script>
 
     <div style="padding:4px;border:2px solid #C01010;background:#FFF0F0;color:#C01010;text-align:justify;" class="round">
-      <b>PLEASE NOTE</b>
+      <b>AVIS</b>
       <br>
+      Les fichiés partagés sur {#ServiceTitle#} sont inspectés pour détecter les virus.
+      Cependant, ceci ne garantit pas que le fichier n'est pas dangereux.
+      Les utilisateurs sont aussi encouragés à encrypter tout fichier contenant de l'information confidentielle.
       <br>
       Files uploaded to {#ServiceTitle#} are scanned for viruses.  But still
       exercise the same degree of caution as you would with any other file
@@ -394,12 +397,10 @@ function validateForm()
     </div>
 
 {if $isAuthorizedUser}
-  <h5>This web page will allow you to drop-off (upload) one or more files
-  for anyone (either {#LocalUser#} or others). The recipient will
-  receive an automated email containing the information you enter below
-  and instructions for downloading the file. Your IP address will also be
-  logged and sent to the recipient for identity confirmation
-  purposes.</h5>
+  <h5>Cette page vous permet de partager (upload) un ou plusieurs fichiers
+  avec d'autres personnes (soit {#LocalUser#} ou autres). Le destinataire
+  recevra un courriel automatisé contenant l'information ci-dessous
+  et des instructions pour télécharger le fichier.</h5>
 {else}
   <h5>This web page will allow you to drop-off (upload) one or more
   files for {#LocalUser#}. The recipient will receive an automated
@@ -411,11 +412,11 @@ function validateForm()
 <form name="dropoff" id="dropoff" method="post" action="{$zendToURL}dropoff.php" enctype="multipart/form-data" onsubmit="return validateForm();">
 
 <!-- First box about the sender -->
-<div class="UILabel">From:</div> <br class="clear" />
+<div class="UILabel">De/From:</div> <br class="clear" />
 <div id="fromHolder"><span id="fromName">{$senderName}</span> <span id="fromEmail">({$senderEmail})</span> <span id="fromOrg">{$senderOrg}</span></div>
 <div class="fright">
-	<input type="checkbox" name="informRecipients" id="informRecipients" checked="checked" /> <label for="informRecipients">Send e-mail message to recipients</label><br />
-	<input type="checkbox" name="confirmDelivery" id="confirmDelivery" checked="checked"/> <label for="confirmDelivery">Send an email to me when the recipient picks up the file(s).</label>
+	<input type="checkbox" name="informRecipients" id="informRecipients" checked="checked" /> <label for="informRecipients">Envoyer une notification au destinataire<br />Send e-mail message to recipients</label><br />
+	<input type="checkbox" name="confirmDelivery" id="confirmDelivery" checked="checked"/> <label for="confirmDelivery">Me notifier lorsque le destinataire télécharge le fichier <br />Send an email to me when the recipient picks up the file(s)</label>
 </div>
 
 <input type="hidden" name="APC_UPLOAD_PROGRESS" id="progress_key" value="{$progress_id}"/>
@@ -425,47 +426,47 @@ function validateForm()
 <input type="hidden" id="senderOrganization" name="senderOrganization" value="{$senderOrg}"/>
 
 <br class="clear" />
-<div class="UILabel">To:</div> <br class="clear" />
+<div class="UILabel">À/To:</div> <br class="clear" />
 <div id="emailHolder"> <a id="addRecipients" href="#"><img src="images/swish/plus-circle-frame.png" alt="Add recipients" /></a> </div>
 <br class="clear" />
 
 
 <div id="addNewRecipient">
-	<h1>Add Recipients</h1>
+	<h1>Ajouter un destinataire/Add Recipients</h1>
 	<p id="buttonHolder" class="center">
-		<button id="showSingleDialog">Add One</button> <button id="showMultipleDialog" class="greyButton">Add Many</button>
+		<button id="showSingleDialog">+ 1</button> <button id="showMultipleDialog" class="greyButton">+ >1</button>
 	</p>
 	
 	<!-- Sending to a single recipient -->
 	<div id="sendSingle" class="center">
 	<div>
-		<label for="recipName" class="UILabel">Name:</label>
+		<label for="recipName" class="UILabel">Nom/Name:</label>
     	<input type="text" id="recipName" name="recipName" size="30" value="{$recipName_1}"/>
     </div>
     <div> 
-    	<label for="recipEmail" class="UILabel">Email:</label>
+    	<label for="recipEmail" class="UILabel">Courriel/Email:</label>
     	<input type="text" id="recipEmail" name="recipEmail" size="30" value="{$recipEmail_1}"/> 
     </div>
-    <button onclick="javascript:addSingleRecipient();">Add Recipient</button>
+    <button onclick="javascript:addSingleRecipient();">Ajouter destinataire/Add Recipient</button>
 	</div>
 	
 	<div id="sendMultiple" class="center">
-	<textarea id="multipleRecipients" rows="10" cols="40" placeholder="Bulk add recipients"></textarea>
-	<p>One recipient per line, for example: <br /><i>Test User test@domain.com</i></p>
-		<div class="center"><button id="addMultipleRecipients">Verify</button></div>	
+	<textarea id="multipleRecipients" rows="10" cols="40" placeholder="Ajouter plusieurs/Bulk add"></textarea>
+	<p>Un par ligne, Exemple: <br /><i>Utilisateur User user@test.com</i></p>
+		<div class="center"><button id="addMultipleRecipients">Valider/Verify</button></div>	
 	</div>
 </div>
 
 <p>
-	<label for="note">Short note to the Recipients</label>
+	<label for="note">Note:</label>
 	<textarea name="note" id="note" wrap="soft" style="width:99%;height: 50px">{$note}</textarea>
 </p>
 
-<b>Choose the File(s) you would like to upload</b>
+<b>Choisissez le fichier à partager<br/>Choose the File(s) you would like to upload</b>
 
 <div id="uploadFiles">
 	<div id="div_file_1" class="file">
-		<label for="file_1">File 1:</label>
+		<label for="file_1">Fichier 1:</label>
 		<input type="file" name="file_1" id="file_1" size="50" onchange="addFile('file_1');" />
 		<select id="file_select_1" name="file_select_1" class="file_select">
 			<option value="-1">or select a file</option>
@@ -474,7 +475,7 @@ function validateForm()
 		<span class="fileSize"></span>
 	</div>
 	<div id="div_file_2" class="file">
-		<label for="file_2">File 2:</label>
+		<label for="file_2">Fichier 2:</label>
 		<input type="file" name="file_2" id="file_2" size="50" onchange="addFile('file_2');" />
                 <select id="file_select_2" name="file_select_2" class="file_select">
 			<option value="-1">or select a file</option>
@@ -516,7 +517,7 @@ function submitform() {
     </div> 
 {/if}
 
-<div class="center"><button onclick="submitform();">Drop off Files</button></div>
+<div class="center"><button onclick="submitform();">Partager/Upload</button></div>
 
 {include file="footer.tpl"}
 

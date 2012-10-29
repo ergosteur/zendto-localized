@@ -35,40 +35,40 @@ function validateForm()
         <tr><td width="100%">
           <table class="UD_form" width="100%" cellpadding="4">
             <tr class="UD_form_header"><td colspan="2">
-              <h4>Information about the Sender</h4>
+              <h4>Information expéditeur/Sender information</h4>
             </td></tr>
 
 {if $verifyFailed}
             <tr><td colspan="2"><b>You did not complete the form, or you failed the "Am I A Real Person?" test.</b></td></tr>
 {/if}
 
-            <tr><td colspan="2">If you have been given a "<b>Request Code</b>" then just enter it here and click the button at the bottom of this form.</td></tr>
+            <tr><td colspan="2">Si vous avez un <b>code de demande de partage</b>, entrez-le ici. <br/> If you have been given a "<b>Request Code</b>" then just enter it here and click the button at the bottom of this form.</td></tr>
             <tr>
-              <td align="right"><label for="req">Request Code:</label></td>
+              <td align="right"><label for="req">Code:</label></td>
               <td width="60%"><input type="text" id="req" name="req" size="45" value="" class="UITextBox" /></td>
             </tr>
             <tr><td colspan="2"><hr style="width: 80%;"/></td></tr>
-            <tr><td colspan="2">If you do not have a "Request Code" then please complete the rest of this form:</td></tr>
+            <tr><td colspan="2">Si vous n'avez pas de code, compétez les champs ci-dessous. <br/>If you do not have a "Request Code" then please complete the rest of this form:</td></tr>
 
             <tr>
-              <td align="right"><label for="senderName">Your name:</label></td>
+              <td align="right"><label for="senderName">Nom/name:</label></td>
 {if $isAuthorizedUser}
               <td width="60%"><input type="hidden" id="senderName" name="senderName" value="{$senderName}">{$senderName}</td>
 {else}
-              <td width="60%"><input type="text" id="senderName" name="senderName" size="45" value="{$senderName}" class="UITextBox" /><font style="font-size:9px">(required)</font></td>
+              <td width="60%"><input type="text" id="senderName" name="senderName" size="45" value="{$senderName}" class="UITextBox" /><font style="font-size:9px">(obligatoire)</font></td>
 {/if}
             </tr>
 
             <tr>
-              <td align="right"><label for="senderOrganization">Your organisation:</label></td>
-              <td width="60%"><input type="text" id="senderOrganization" name="senderOrganization" size="45" value="{$senderOrg}"/><font style="font-size:9px">(required)</font></td>
+              <td align="right"><label for="senderOrganization">Organisation/Organization:</label></td>
+              <td width="60%"><input type="text" id="senderOrganization" name="senderOrganization" size="45" value="{$senderOrg}"/><font style="font-size:9px">(obligatoire)</font></td>
             </tr>
             <tr>
-              <td align="right"><label for="senderEmail">Your email address:</label></td>
+              <td align="right"><label for="senderEmail">Courriel/email:</label></td>
 {if $isAuthorizedUser}
               <td width="60%"><input type="hidden" id="senderEmail" name="senderEmail" value="{$senderEmail}">{$senderEmail}</td>
 {else}
-              <td width="60%"><input type="text" id="senderEmail" name="senderEmail" size="45" value="{$senderEmail}" class="UITextBox" /><font style="font-size:9px">(required)</font></td>
+              <td width="60%"><input type="text" id="senderEmail" name="senderEmail" size="45" value="{$senderEmail}" class="UITextBox" /><font style="font-size:9px">(obligatoire)</font></td>
 {/if}
             </tr>
 

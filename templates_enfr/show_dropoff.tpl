@@ -4,7 +4,7 @@
 <!--
 
 function doDelete(){
-  if ( confirm("Do you really want to delete this dropoff?") ) {
+  if ( confirm("Voulez-vous vraiment supprimer ce partage? Do you really want to delete this dropoff?") ) {
     return document.deleteDropoff.submit();
   }
   return 0;
@@ -17,15 +17,15 @@ function doResend(){
 //-->
 </script>
 
-{if $isSendable}<div style="float:right"><button class="UD_textbutton_admin" onclick="doResend();">Resend Dropoff</button></div>{else}&nbsp;{/if}
-{if $isDeleteable}<div style="float:right"><button class="UD_textbutton_admin" onclick="doDelete();">Delete Dropoff</button></div>{else}&nbsp;{/if}
+{if $isSendable}<div style="float:right"><button class="UD_textbutton_admin" onclick="doResend();">Ré-envoyer/Resend</button></div>{else}&nbsp;{/if}
+{if $isDeleteable}<div style="float:right"><button class="UD_textbutton_admin" onclick="doDelete();">Supprimer/Delete</button></div>{else}&nbsp;{/if}
 
-<h1>Drop-Off Summary</h1>
+<h1>Résumé du partage</h1>
 
 
 {if $isClickable}
 <div align="center">
-  <h4>Click on a filename or icon to download that file.</h4>
+  <h4>Cliquez un fichier pour le télécharger. <br/>Click on a filename or icon to download that file.</h4>
 </div>
 {/if}
 
@@ -39,7 +39,7 @@ function doResend(){
 {if $dropoffFilesCount>0}
       <table class="UD_form" cellpadding="4">
         <thead class="UD_form_header">
-          <td colspan="2">Filename</td>
+          <td colspan="2">Nom du fichier/Filename</td>
           <td align="center">Type</td>
           <td align="right">Size</td>
           <td>Description</td>
@@ -90,11 +90,11 @@ function doResend(){
 </table>
 
 
-<div class="UILabel">From:</div> <br class="clear" />
-<div id="fromHolder"><span id="fromName">{$senderName}</span> <span id="fromEmail">({$senderEmail})</span> <span id="fromOrg">{$senderOrg}</span> <span>from {$senderHost} on {$createdDate|date_format:"%d %b %Y&nbsp;&nbsp;%r"}</span></div>
+<div class="UILabel">De/From:</div> <br class="clear" />
+<div id="fromHolder"><span id="fromName">{$senderName}</span> <span id="fromEmail">({$senderEmail})</span> <span id="fromOrg">{$senderOrg}</span> <span>de {$senderHost}, {$createdDate|date_format:"%d %b %Y&nbsp;&nbsp;%r"}</span></div>
 
 {if $showRecips}
-<div class="UILabel">To:</div> <br class="clear" />
+<div class="UILabel">À/To:</div> <br class="clear" />
 <div id="emailHolder">
   {foreach from=$recipients item=r}
               <div class='emailButton'>{$r.0} ({$r.1})</div>
@@ -104,18 +104,19 @@ function doResend(){
 <br class="clear" />
 
 <div id="commentsArea">
-	<label for="comments">Comments:</label><br />
+	<label for="comments">Commentaires:</label><br />
 	<textarea readonly="yes" id="comments" name="comments" style="width: 400px; height: 100px;">{$note}</textarea>
 </div>
 
 <div id="sendContainer">
 {if $inPickupPHP}
-  <b>Claim ID:</b> {$claimID}
-  <b>Claim Passcode:</b> {$claimPasscode}
+  <b>ID:</b> {$claimID}
+  <b>Clé/Passcode:</b> {$claimPasscode}
 {elseif $isAuthorizedUser}
-	<p>To send the file to someone else, simply send them this Claim ID and Passcode:</p>
-	<textarea readonly="yes" wrap="hard" rows="2" cols="32">Claim ID: {$claimID}
-Claim Passcode: {$claimPasscode}</textarea>
+	<p>Pour donner accès à ce fichier à une autre personne, envoyez-leur cet ID et clé. <br/>
+        To send the file to someone else, simply send them this ID and Passcode:</p>
+	<textarea readonly="yes" wrap="hard" rows="2" cols="32">ID: {$claimID}
+Clé/Passcode: {$claimPasscode}</textarea>
 {/if}
 </div>
 
@@ -130,9 +131,9 @@ Claim Passcode: {$claimPasscode}</textarea>
   {if $pickupsCount>0}
       <table width="100%" class="UD_form" cellpadding="4">
         <thead class="UD_form_header">
-          <td>Picked-up on date...</td>
-          <td>...from remote address...</td>
-          <td>...by recipient.</td>
+          <td>Téléchargé le/Picked-up date</td>
+          <td>adresse/adresse</td>
+          <td>par destinataire/by recipient.</td>
         </thead>
     {foreach from=$pickups item=p}
         <tr class="UD_form_lined" valign="middle">
@@ -146,6 +147,7 @@ Claim Passcode: {$claimPasscode}</textarea>
         </tr>
       </table>
   {else}
+    Aucun fichier n'a été récupéré. 
     None of the files has been picked-up yet.
   {/if}
     </td>

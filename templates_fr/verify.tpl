@@ -35,7 +35,7 @@ function validateForm()
         <tr><td width="100%">
           <table class="UD_form" width="100%" cellpadding="4">
             <tr class="UD_form_header"><td colspan="2">
-              <h4>Information about the Sender</h4>
+              <h4>Information expéditeur/Sender information</h4>
             </td></tr>
 
 {if $verifyFailed}
@@ -51,7 +51,7 @@ function validateForm()
             <tr><td colspan="2">Si vous n'avez pas de code, compétez les champs ci-dessous. <br/>If you do not have a "Request Code" then please complete the rest of this form:</td></tr>
 
             <tr>
-              <td align="right"><label for="senderName">Votre nom:</label></td>
+              <td align="right"><label for="senderName">Nom/name:</label></td>
 {if $isAuthorizedUser}
               <td width="60%"><input type="hidden" id="senderName" name="senderName" value="{$senderName}">{$senderName}</td>
 {else}
@@ -60,11 +60,11 @@ function validateForm()
             </tr>
 
             <tr>
-              <td align="right"><label for="senderOrganization">Votre organisation:</label></td>
+              <td align="right"><label for="senderOrganization">Organisation/Organization:</label></td>
               <td width="60%"><input type="text" id="senderOrganization" name="senderOrganization" size="45" value="{$senderOrg}"/><font style="font-size:9px">(obligatoire)</font></td>
             </tr>
             <tr>
-              <td align="right"><label for="senderEmail">Your adresse courriel:</label></td>
+              <td align="right"><label for="senderEmail">Courriel/email:</label></td>
 {if $isAuthorizedUser}
               <td width="60%"><input type="hidden" id="senderEmail" name="senderEmail" value="{$senderEmail}">{$senderEmail}</td>
 {else}

@@ -7,20 +7,20 @@
     <td colspan="2">&nbsp;<!-- {$isLocalIP} --></td>
   </tr>
   <tr>
-    <td colspan="2"><h4>You may perform the following activities:</h4></td>
+    <td colspan="2"><h4>Vous pouvez effectuer les actions suivantes:<br/>You may perform the following activities:</h4></td>
   </tr>
   <tr>
-    <td>{call name=button href="verify.php" text="Drop-off" width="100%"}</td>
-    <td class="UD_nav_label">Drop-off (<i>upload</i>) a file for someone else.</td>
+    <td>{call name=button href="verify.php" text="Créer un partage" width="100%"}</td>
+    <td class="UD_nav_label">Partager (<i>upload</i>)des fichiers avec quelqu'un.</td>
   </tr>
   <tr>
-    <td>{call name=button href="pickup.php" text="Pick-up" width="100%"}</td>
-    <td class="UD_nav_label">Pick-up (<i>download</i>) a file dropped-off for you.</td>
+    <td>{call name=button href="pickup.php" text="Récupérer un partage" width="100%"}</td>
+    <td class="UD_nav_label">Récupérer (<i>télécharger/download</i>) un fichier partagé avec vous.</td>
   </tr>
   <tr><td colspan="2">&nbsp;</td></tr>
   <tr>
     <td>{call name=button href="req.php" text="Request a Drop-off" width="100%"}</td>
-    <td class="UD_nav_label">Ask another person to send you some files.</td>
+    <td class="UD_nav_label">Demander un partage de fichier de la part d'une autre personne./Ask another person to send you some files.</td>
   </tr>
 {if $isStatsUser}
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -54,34 +54,36 @@
 {else}
   <!-- Not logged in. -->
 <table border="0" class="homeButtons">
-  <tr><td colspan="2"><h4>If you are {#LocalUser#}, you may login here:</h4></td></tr>
+  <tr><td colspan="2"><h4>Si vous êtes {#LocalUser#}, vous pouvez vous connecter ici:</h4></td></tr>
   <tr>
-    <td>{call name=button href="index.php?action=login" text="Login" width="100%"}</td>
-    <td class="UD_nav_label"><b>Avoid having to verify your email address</b>,<br />and drop-off files to {#NonLocalUsers#}.</td>
+    <td>{call name=button href="index.php?action=login" text="Connexion" width="100%"}</td>
+    <td class="UD_nav_label"><b>Évitez de devoir valider votre adresse courriel</b>,<br />et partagez des fichiers avec {#NonLocalUsers#}.</td>
   </tr>
   <tr><td colspan="2">&nbsp;</td></tr>
-  <tr><td colspan="2"><h4>Anyone may perform the following activities:</h4></td></tr>
+  <tr><td colspan="2"><h4>N'importe qui peut effectuer les actions suivantes:</h4></td></tr>
   <tr>
-    <td>{call name=button href="verify.php" text="Drop-off" width="100%"}</td>
-    <td class="UD_nav_label">Drop-off (<i>upload</i>) a file for {#LocalUser#} (<b>email verification required</b>).</td>
+    <td>{call name=button href="verify.php" text="Créer un partage" width="100%"}</td>
+    <td class="UD_nav_label">Partager (<i>upload</i>) un fichier pour {#LocalUser#} (<b>verification par email nécessaire</b>).</td>
   </tr>
   <tr>
-    <td>{call name=button href="pickup.php" text="Pick-up" width="100%"}</td>
-    <td class="UD_nav_label">Pick-up (<i>download</i>) a file dropped-off for you.</td>
+    <td>{call name=button href="pickup.php" text="Récuperer" width="100%"}</td>
+    <td class="UD_nav_label">Récupérer (<i>télécharger/download</i>) un fichier partagé avec vous.</td>
   </tr>
   <tr><td colspan="2">&nbsp;</td></tr>
 </table>
 
 {/if}
 
-<h4>Help</h4>
+<h4>Aide</h4>
 
-<p>{#ServiceTitle#} is a service to make it easy for you to move files, including large files up to {$maxFileSize}, in and out of {#OrganizationType#}.</p>
+<p>{#ServiceTitle#} est un service pour simplifier l'envoi et le partage de fichiers volumineux, jusqu'à un maximum de {$maxFileSize}, à l'extérieur du {#OrganizationType#}.</p>
 <ul>
-  <li>If you are a member of {#OrganizationType#}, you can log in with your {#Username#} and password and send files to anyone, in or out of {#OrganizationType#}.<br/>Start by logging in and then clicking the "<em>Drop-off</em>" button.</li>
-  <li>If you are not a member of {#OrganizationType#}, you cannot log in but you can still send files to people in {#OrganizationType#} if you know their email address.<br/>Start by clicking the "<em>Drop-off</em>" button.</li>
-  <li>If you are a member of {#OrganizationType#} and wish to ask someone outside {#OrganizationType#} to send you some files, you can make the process a lot easier for them by logging in and then clicking the "<em>Request a Drop-off</em>" button.<br/>This means the other person does not have to pass any tests to prove who they are, which makes the whole process a lot quicker for them.</li>
-  <li>Files are automatically deleted from {#ServiceTitle#} {$keepForDays} days after you upload them, so you don't need to manually clean up.</li>
+    <li>If you are not a member of {#OrganizationType#}, you cannot log in but you can still send files to people in {#OrganizationType#} if you know their email address.<br/>Start by clicking the "<em>Créer un partage</em>" button.</li>
+<li>Si vous faites partie du {#OrganizationType#}, vous pouvez vous connecter avec votre {#Username#} et mot de passe et envoyer des fichiers à n'importe quel destinataire, à l'intérieur ou à l'intérieur du  {#OrganizationType#}.<br/>Créez votre premier partage en vous authentificant et cliquant le bouton "<em>Créer un partage</em>".</li>
+  <li>Si vous faites partie du {#OrganizationType#} et voulez demander à quelqu'un à l'extérieur du {#OrganizationType#} de vous envoyer des fichiers, vous pouvez simplifier le procès en cliquant le bouton  "<em>Demander un partage</em>".<br/>Ceci évite certaines étapes d'authentification pour l'autre personne, accélérant le procès de partage.</li>
+  <li>Files are automatically deleted from {#ServiceTitle#} {$keepForDays} days after you upload them.</li>
+  <li>Les fichiers plus vieux de {$keepForDays} jours sont automatiquement supprimés de {#ServiceTitle#}.</li>
+
 </ul>
 
 {include file="footer.tpl"}

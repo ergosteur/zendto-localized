@@ -44,7 +44,7 @@ function validateForm()
 
             <tr><td colspan="2">Si vous avez un <b>code de demande de partage</b>, entrez-le ici. <br/> If you have been given a "<b>Request Code</b>" then just enter it here and click the button at the bottom of this form.</td></tr>
             <tr>
-              <td align="right"><label for="req">Request Code:</label></td>
+              <td align="right"><label for="req">Code:</label></td>
               <td width="60%"><input type="text" id="req" name="req" size="45" value="" class="UITextBox" /></td>
             </tr>
             <tr><td colspan="2"><hr style="width: 80%;"/></td></tr>

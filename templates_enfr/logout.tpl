@@ -1,5 +1,9 @@
 {include file="header.tpl"}
 
+<h4>Vous avez été déconnectés de {#ServiceTitle#}.</h4>
+<h5>Pour aider à protéger votre sécurité, fermez cette fenêtre ou onglet.</h5>
+<h5>Vous serez redirigés au <a href="{$zendToURL}">menu principal</a>
+    dans quelques moments.</h5>
 <h4>You have been logged out.</h4>
 <h5>For better security, you should also exit this browser, or at least close
     this browser window.</h5>

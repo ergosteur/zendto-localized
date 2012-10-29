@@ -22,17 +22,17 @@ $(document).ready(function() {
 {if $isAuthorizedUser}
 
   {if $countDropoffs>0}
-<h1>Outbox</h1>
-<h5>Click on a drop-off claim ID to view the information and files for that drop-off.</h5>
+<h1>Envoi/Outbox</h1>
+<h5>Cliquez sur un des ID de partage pour afficher l'information et les fichiers partagés.<br/>Click on a drop-off claim ID to view the information and files for that drop-off.</h5>
 <table id="dropoff_list" width="100%">
   <thead>
 <!-- <table class="UD_form" cellpadding="4" width="100%">
   <thead class="UD_form_header"> -->
-    <td>Claim ID</td>
-    <td>Sender</td>
-    <td>Recipient</td>
-    <td>Size</td>
-    <td>Created</td>
+    <td>ID de partage/Claim ID</td>
+    <td>Expéditeur/Sender</td>
+    <td>Destinataire/Recipient</td>
+    <td>Taille/Size</td>
+    <td>Crée/Created</td>
   </thead>
 
     {foreach from=$dropoffs item=d}
@@ -64,7 +64,7 @@ $(document).ready(function() {
 </form>
 
   {else}
-<h5>There are no drop-offs made by you on record at this time.</h5>
+<h5>Il n'y a actuellement aucun fichier partagé par vous sur le serveur.<br/>There are no drop-offs made by you on record at this time.</h5>
   {/if}
 
 {/if}
